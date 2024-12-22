@@ -4,11 +4,11 @@ namespace Home.Recipes.Domain.Recipes.ValueObjects;
 
 public sealed class MassIngredient : IngredientBase
 {
-    public MassIngredient(string ingredientName, MassUnit unit, double amount)
+    public MassIngredient(string ingredientName, MassUnit unit, double wightInGramm)
         : base(ingredientName)
     {
         Unit = unit;
-        WightInGramm = amount;
+        WightInGramm = wightInGramm;
     }
 
     public MassUnit Unit { get; }

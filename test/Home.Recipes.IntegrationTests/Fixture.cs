@@ -1,5 +1,4 @@
-﻿using Alba;
-using Home.Recipes.Api.Infrastructure;
+﻿using Home.Recipes.Domain.Recipes;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
@@ -18,7 +17,6 @@ public sealed class Fixture : IAsyncLifetime
     private readonly PostgreSqlContainer _postgreSqlContainer = new PostgreSqlBuilder()
             .WithDatabase("recipies")
             .WithUsername("postgres")
-            //.WithPassword(TestConstants.MainPassword)
             .Build();
 
     public async Task DisposeAsync()
@@ -40,5 +38,12 @@ public sealed class Fixture : IAsyncLifetime
         Host = await AlbaHost.For<Program>(x => x.ConfigureServices((ctx, collection) => collection.AddMarten(new MartenConfigurations(postgresUrl))));
 
         Store = Host.Services.GetRequiredService<IDocumentStore>();
+    }
+
+    public async Task<Recipe?> LoadRecipeFromDbAsync(Guid recipeId)
+    {
+        await using var session = await Store.LightweightSerializableSessionAsync();
+
+        return await session.LoadAsync<Recipe>(recipeId);
     }
 }

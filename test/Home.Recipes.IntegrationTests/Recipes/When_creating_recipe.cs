@@ -1,5 +1,4 @@
 ﻿using Home.Recipes.Api.Features.Recipes;
-using Home.Recipes.Domain.Recipes;
 using System.Net;
 
 namespace Home.Recipes.IntegrationTests.Recipes;
@@ -30,7 +29,7 @@ public sealed class When_creating_recipe
         });
 
         // Assert
-        var recipeFromDb = await LoadRecipeFromDbAsync((await response.ReadAsJsonAsync<CreateRecipeResponse>()).RecipeId);
+        var recipeFromDb = await _fixture.LoadRecipeFromDbAsync((await response.ReadAsJsonAsync<CreateRecipeResponse>()).RecipeId);
 
         recipeFromDb.Should().NotBeNull();
         recipeFromDb!.Name.Name.Should().Be(dto.Name);
@@ -58,12 +57,5 @@ public sealed class When_creating_recipe
 
             _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
         });
-    }
-
-    private async Task<Recipe?> LoadRecipeFromDbAsync(Guid recipeId)
-    {
-        await using var session = await _fixture.Store.LightweightSerializableSessionAsync();
-
-        return await session.LoadAsync<Recipe>(recipeId);
     }
 }

@@ -25,5 +25,9 @@
 <ItemGroup>
 	<InternalsVisibleTo Include="Home.Recipes.IntegrationTests" />
 </ItemGroup>
+	
+<ItemGroup>
+  <Folder Include="Internal\" />
+</ItemGroup>
 
 </Project>

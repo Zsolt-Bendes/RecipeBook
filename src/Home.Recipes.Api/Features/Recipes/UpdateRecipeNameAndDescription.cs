@@ -1,5 +1,8 @@
 ﻿using Home.Recipes.Domain.Recipes;
 using Home.Recipes.Domain.Recipes.Events;
+using Marten;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Wolverine.Http;
 using Wolverine.Marten;
 
@@ -14,20 +17,37 @@ public static class UpdateRecipeNameAndDescriptionEndpoint
 {
     internal const string Endpoint = "/recipes/updateNameAndDescription";
 
+    public static async Task<ProblemDetails> LoadAsync(
+        UpdateRecipeNameAndDescriptionCommand command,
+        IDocumentSession session,
+        CancellationToken cancellationToken)
+    {
+        var recipe = await session.LoadAsync<Recipe>(command.RecipeId, cancellationToken);
+        if (recipe is null)
+        {
+            return
+                new ProblemDetails
+                {
+                    Title = "Recipe not found",
+                    Status = (int)HttpStatusCode.NotFound,
+                    Detail = $"Recipe with id {command.RecipeId} not found",
+                };
+        }
+
+        return WolverineContinue.NoProblems;
+    }
+
     [WolverinePut(Endpoint)]
     [AggregateHandler, EmptyResponse]
-    public static Events Put(UpdateRecipeNameAndDescriptionCommand command, Recipe recipe)
+    public static IEnumerable<object> Put(UpdateRecipeNameAndDescriptionCommand command, Recipe recipe)
     {
-        var evts = new Events();
         if (!string.IsNullOrEmpty(command.Name))
         {
-            evts.Add(new RecipeNameChanged(command.Name));
+            yield return new RecipeNameChanged(command.Name);
         }
         if (!string.IsNullOrEmpty(command.Description))
         {
-            evts.Add(new RecipeDescriptionChanged(command.Description));
+            yield return new RecipeDescriptionChanged(command.Description);
         }
-
-        return evts;
     }
 }

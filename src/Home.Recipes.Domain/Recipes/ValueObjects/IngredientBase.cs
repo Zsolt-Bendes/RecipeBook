@@ -13,9 +13,4 @@ public abstract class IngredientBase : ValueObject
     }
 
     public string IngredientName { get; }
-
-    //protected override IEnumerable<object> GetEqualityComponents()
-    //{
-    //    yield return IngredientName;
-    //}
 }

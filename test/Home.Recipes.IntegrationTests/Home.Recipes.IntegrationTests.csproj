@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Home.Recipes.Api\Home.Recipes.Api.csproj" />
+    <ProjectReference Include="..\Home.Recipes.TestHelpers\Home.Recipes.TestHelpers.csproj" />
   </ItemGroup>
 
   <ItemGroup>

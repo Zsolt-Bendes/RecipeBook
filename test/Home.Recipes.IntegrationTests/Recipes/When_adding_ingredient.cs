@@ -118,4 +118,94 @@ public sealed class When_adding_ingredient : IAsyncLifetime
         recipe!.Ingredients.Should().HaveCount(1);
         recipe.Ingredients[0].Should().BeOfType(typeof(PieceIngredient));
     }
+
+    [Fact]
+    public async Task Given_recipe_with_same_piece_recipe_name_exists_then_ingredient_value_is_updated()
+    {
+        // Arrange
+        const string expectedName = "paprika";
+        var existingRecipe = ObjectMother
+            .Events
+            .RecipeCreated
+            .Default
+            .WithPieceIngredients(_ => _.WithIngredientName(expectedName))
+            .Build();
+
+        await _fixture.CreateRecipeAsync(existingRecipe);
+        var dto = new AddIngredientCommand(existingRecipe.RecipeId, IngredientType.Piece, expectedName, 2);
+
+        // Act 
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(AddIngredientEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.NoContent);
+        });
+
+        // Assert
+        var recipe = await _fixture.LoadRecipeFromDbAsync(existingRecipe.RecipeId);
+
+        recipe.Should().NotBeNull();
+        recipe!.Ingredients.Should().HaveCount(1);
+        (recipe.Ingredients[0] as PieceIngredient)!.Pieces.Should().Be(2);
+    }
+
+    [Fact]
+    public async Task Given_recipe_with_same_mass_recipe_name_exists_then_ingredient_value_is_updated()
+    {
+        // Arrange
+        const string expectedName = "paprika";
+        var existingRecipe = ObjectMother
+            .Events
+            .RecipeCreated
+            .Default
+            .WithMassIngredients(_ => _.WithIngredientName(expectedName))
+            .Build();
+
+        await _fixture.CreateRecipeAsync(existingRecipe);
+        var dto = new AddIngredientCommand(existingRecipe.RecipeId, IngredientType.Mass, expectedName, 2);
+
+        // Act 
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(AddIngredientEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.NoContent);
+        });
+
+        // Assert
+        var recipe = await _fixture.LoadRecipeFromDbAsync(existingRecipe.RecipeId);
+
+        recipe.Should().NotBeNull();
+        recipe!.Ingredients.Should().HaveCount(1);
+        (recipe.Ingredients[0] as MassIngredient)!.WightInGramm.Should().Be(2);
+    }
+
+    [Fact]
+    public async Task Given_recipe_with_same_fluid_recipe_name_exists_then_ingredient_value_is_updated()
+    {
+        // Arrange
+        const string expectedName = "paprika";
+        var existingRecipe = ObjectMother
+            .Events
+            .RecipeCreated
+            .Default
+            .WithFluidIngredients(_ => _.WithIngredientName(expectedName))
+            .Build();
+
+        await _fixture.CreateRecipeAsync(existingRecipe);
+        var dto = new AddIngredientCommand(existingRecipe.RecipeId, IngredientType.Fluid, expectedName, 2);
+
+        // Act 
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(AddIngredientEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.NoContent);
+        });
+
+        // Assert
+        var recipe = await _fixture.LoadRecipeFromDbAsync(existingRecipe.RecipeId);
+
+        recipe.Should().NotBeNull();
+        recipe!.Ingredients.Should().HaveCount(1);
+        (recipe.Ingredients[0] as FluidIngredient)!.VolumeInMilliliter.Should().Be(2);
+    }
 }

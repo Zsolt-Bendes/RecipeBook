@@ -1,5 +1,6 @@
 ﻿using Home.Recipes.Api.Infrastructure;
 using Home.Recipes.Domain.Recipes;
+using Home.Recipes.Domain.Recipes.Events;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.PostgreSql;
@@ -46,5 +47,14 @@ public sealed class Fixture : IAsyncLifetime
         await using var session = await Store.LightweightSerializableSessionAsync();
 
         return await session.LoadAsync<Recipe>(recipeId);
+    }
+
+    public async Task CreateRecipeAsync(RecipeCreated evt)
+    {
+        await using var session = await Store.LightweightSerializableSessionAsync();
+
+        session.Events.StartStream(evt.RecipeId, evt);
+
+        await session.SaveChangesAsync();
     }
 }

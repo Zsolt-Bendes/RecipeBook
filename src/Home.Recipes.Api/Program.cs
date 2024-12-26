@@ -1,7 +1,6 @@
 using Home.Recipes.Api.Infrastructure;
 using Wolverine;
 using Wolverine.FluentValidation;
-using Wolverine.Http;
 using Wolverine.Http.FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);

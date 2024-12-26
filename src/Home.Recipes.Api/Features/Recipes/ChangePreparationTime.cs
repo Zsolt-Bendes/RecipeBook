@@ -1,14 +1,16 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Marten;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using Wolverine.Http;
-using Wolverine.Marten;
+﻿namespace Home.Recipes.Api.Features.Recipes;
 
-namespace Home.Recipes.Api.Features.Recipes;
-
-public sealed record ChangePreparationTimeCommand(Guid RecipeId, TimeSpan Time);
+public sealed record ChangePreparationTimeCommand(Guid RecipeId, TimeSpan Time)
+{
+    public sealed class ChangePreparationTimeCommandValidator : AbstractValidator<ChangePreparationTimeCommand>
+    {
+        public ChangePreparationTimeCommandValidator()
+        {
+            RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
+            RuleFor(_ => _.Time).GreaterThan(TimeSpan.Zero);
+        }
+    }
+}
 
 public static class ChangePreparationTimeEndpoint
 {

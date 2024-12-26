@@ -1,17 +1,27 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Marten;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using Wolverine.Http;
-using Wolverine.Marten;
-
-namespace Home.Recipes.Api.Features.Recipes;
+﻿namespace Home.Recipes.Api.Features.Recipes;
 
 public sealed record ChangeRecipeNameAndDescriptionCommand(
     Guid RecipeId,
     string? Name,
-    string? Description);
+    string? Description)
+{
+    public sealed class ChangeRecipeNameAndDescriptionCommandValidator
+        : AbstractValidator<ChangeRecipeNameAndDescriptionCommand>
+    {
+        public ChangeRecipeNameAndDescriptionCommandValidator()
+        {
+            RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
+            RuleFor(_ => _.Name)
+                .NotEmpty()
+                .When(_ => string.IsNullOrEmpty(_.Description))
+                .MaximumLength(RecipeConstants.MaxNameLength);
+            RuleFor(_ => _.Description)
+                .NotEmpty()
+                .When(_ => string.IsNullOrEmpty(_.Name))
+                .MaximumLength(RecipeConstants.MaxDescriptionLength);
+        }
+    }
+}
 
 public static class ChangeRecipeNameAndDescriptionEndpoint
 {

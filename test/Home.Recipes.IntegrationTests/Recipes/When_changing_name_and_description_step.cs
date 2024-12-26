@@ -15,6 +15,34 @@ public sealed class When_changing_name_and_description_step
     }
 
     [Fact]
+    public async Task Given_empty_recipe_id_then_bad_request_is_returned()
+    {
+        // Arrange
+        var dto = new ChangeRecipeNameAndDescriptionCommand(Guid.Empty, "name", "description");
+
+        // Act & Assert
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(ChangeRecipeNameAndDescriptionEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
+    }
+
+    [Fact]
+    public async Task Given_name_and_description_is_empty_then_bad_request_is_returned()
+    {
+        // Arrange
+        var dto = new ChangeRecipeNameAndDescriptionCommand(Guid.NewGuid(), string.Empty, string.Empty);
+
+        // Act & Assert
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(ChangeRecipeNameAndDescriptionEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
+    }
+
+    [Fact]
     public async Task When_recipe_does_not_exists_then_not_found_is_returned()
     {
         // Arrange

@@ -1,14 +1,16 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Marten;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using Wolverine.Http;
-using Wolverine.Marten;
+﻿namespace Home.Recipes.Api.Features.Recipes;
 
-namespace Home.Recipes.Api.Features.Recipes;
-
-public sealed record RemoveRecipeStepCommand(Guid RecipeId, int Index);
+public sealed record RemoveRecipeStepCommand(Guid RecipeId, int Index)
+{
+    public sealed class RemoveRecipeStepCommandValidator : AbstractValidator<RemoveRecipeStepCommand>
+    {
+        public RemoveRecipeStepCommandValidator()
+        {
+            RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
+            RuleFor(_ => _.Index).GreaterThanOrEqualTo(0);
+        }
+    }
+}
 
 public static class RemoveRecipeStepEndpoint
 {

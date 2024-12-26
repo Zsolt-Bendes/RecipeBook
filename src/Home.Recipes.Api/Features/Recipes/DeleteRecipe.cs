@@ -1,7 +1,4 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Wolverine.Http;
-using Wolverine.Http.Marten;
+﻿using Wolverine.Http.Marten;
 
 namespace Home.Recipes.Api.Features.Recipes;
 

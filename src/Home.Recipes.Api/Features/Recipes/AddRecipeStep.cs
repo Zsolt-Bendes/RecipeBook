@@ -1,14 +1,16 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Marten;
-using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using Wolverine.Http;
-using Wolverine.Marten;
+﻿namespace Home.Recipes.Api.Features.Recipes;
 
-namespace Home.Recipes.Api.Features.Recipes;
-
-public sealed record AddRecipeStepCommand(Guid RecipeId, string Text);
+public sealed record AddRecipeStepCommand(Guid RecipeId, string Text)
+{
+    public sealed class AddRecipeStepCommandValidator : AbstractValidator<AddRecipeStepCommand>
+    {
+        public AddRecipeStepCommandValidator()
+        {
+            RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
+            RuleFor(_ => _.Text).NotEmpty().MaximumLength(RecipeConstants.MaxStepLength);
+        }
+    }
+}
 
 public static class AddRecipeStepEndpoint
 {

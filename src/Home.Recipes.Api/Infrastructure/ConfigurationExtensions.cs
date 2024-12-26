@@ -1,7 +1,4 @@
 ﻿using Home.Recipes.Api.Infrastructure.Exceptions;
-using Marten;
-using Wolverine.Http;
-using Wolverine.Marten;
 
 namespace Home.Recipes.Api.Infrastructure;
 

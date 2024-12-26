@@ -1,5 +1,4 @@
-﻿using Marten;
-using Marten.Events.Projections;
+﻿using Marten.Events.Projections;
 using System.Text.Json;
 
 namespace Home.Recipes.Api.Infrastructure;

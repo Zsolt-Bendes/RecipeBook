@@ -1,4 +1,5 @@
 ﻿using Home.Recipes.Api.Features.Recipes;
+using Home.Recipes.Domain.Recipes;
 using Home.Recipes.Domain.Recipes.ValueObjects;
 using System.Net;
 
@@ -12,6 +13,48 @@ public sealed class When_changing_recipe_step
     public When_changing_recipe_step(Fixture fixture)
     {
         _fixture = fixture;
+    }
+
+    [Fact]
+    public async Task Given_empty_recipe_id_then_bad_request_is_returned()
+    {
+        // Arrange
+        var dto = new ChangeRecipeStepCommand(Guid.Empty, 0, "updated value");
+
+        // Act & Assert
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(ChangeRecipeStepEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
+    }
+
+    [Fact]
+    public async Task Given_index_is_negative_then_bad_request_is_returned()
+    {
+        // Arrange
+        var dto = new ChangeRecipeStepCommand(Guid.NewGuid(), -1, "updated value");
+
+        // Act & Assert
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(ChangeRecipeStepEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
+    }
+
+    [Fact]
+    public async Task Given_text_is_longer_than_allowed_then_bad_request_is_returned()
+    {
+        // Arrange
+        var dto = new ChangeRecipeStepCommand(Guid.NewGuid(), 1, _fixture.GetLongTestString(RecipeConstants.MaxStepLength + 1));
+
+        // Act & Assert
+        var response = await _fixture.Host.Scenario(_ =>
+        {
+            _.Put.Json(dto).ToUrl(ChangeRecipeStepEndpoint.Endpoint);
+            _.StatusCodeShouldBe(HttpStatusCode.BadRequest);
+        });
     }
 
     [Fact]

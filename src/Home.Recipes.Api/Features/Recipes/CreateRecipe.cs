@@ -1,10 +1,5 @@
-﻿using Home.Recipes.Domain.Recipes;
-using Home.Recipes.Domain.Recipes.Events;
-using Marten;
-using Marten.Schema.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Marten.Schema.Identity;
 using Wolverine.Attributes;
-using Wolverine.Http;
 
 namespace Home.Recipes.Api.Features.Recipes;
 
@@ -12,7 +7,19 @@ public sealed record CreateRecipeCommand(
     string Name,
     string Description,
     TimeSpan CookingTime,
-    TimeSpan PreparationTime);
+    TimeSpan PreparationTime)
+{
+    public sealed class CreateRecipeCommandValidator : AbstractValidator<CreateRecipeCommand>
+    {
+        public CreateRecipeCommandValidator()
+        {
+            RuleFor(_ => _.Name).NotEmpty().MaximumLength(RecipeConstants.MaxNameLength);
+            RuleFor(_ => _.Description).NotEmpty().MaximumLength(RecipeConstants.MaxDescriptionLength);
+            RuleFor(_ => _.CookingTime).GreaterThan(TimeSpan.Zero);
+            RuleFor(_ => _.PreparationTime).GreaterThan(TimeSpan.Zero);
+        }
+    }
+}
 
 public sealed record CreateRecipeResponse(Guid RecipeId);
 

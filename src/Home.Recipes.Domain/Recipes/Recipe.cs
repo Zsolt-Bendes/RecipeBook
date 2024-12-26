@@ -97,7 +97,7 @@ public sealed record Recipe(
         recipe.Steps.RemoveAt(stepRemoved.Index);
     }
 
-    public static void Apply(StepUpdated stepUpdated, Recipe recipe)
+    public static void Apply(RecipeStepUpdated stepUpdated, Recipe recipe)
     {
         if (stepUpdated.Index < 0 || stepUpdated.Index >= recipe.Steps.Count)
         {

@@ -8,14 +8,14 @@ using Wolverine.Marten;
 
 namespace Home.Recipes.Api.Features.Recipes;
 
-public sealed record UpdateRecipeStepCommand(Guid RecipeId, int Index, string Text);
+public sealed record ChangeRecipeStepCommand(Guid RecipeId, int Index, string Text);
 
-public static class UpdateRecipeStepEndpoint
+public static class ChangeRecipeStepEndpoint
 {
     internal const string Endpoint = "/recipes/updateStep";
 
     public static async Task<ProblemDetails> LoadAsync(
-        UpdateRecipeStepCommand command,
+        ChangeRecipeStepCommand command,
         IDocumentSession session,
         CancellationToken cancellationToken)
     {
@@ -36,8 +36,8 @@ public static class UpdateRecipeStepEndpoint
 
     [WolverinePut(Endpoint)]
     [AggregateHandler, EmptyResponse]
-    public static StepUpdated Put(UpdateRecipeStepCommand command, Recipe recipe)
+    public static RecipeStepUpdated Put(ChangeRecipeStepCommand command, Recipe recipe)
     {
-        return new StepUpdated(command.Text, command.Index);
+        return new RecipeStepUpdated(command.Text, command.Index);
     }
 }

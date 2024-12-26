@@ -8,17 +8,17 @@ using Wolverine.Marten;
 
 namespace Home.Recipes.Api.Features.Recipes;
 
-public sealed record UpdateRecipeNameAndDescriptionCommand(
+public sealed record ChangeRecipeNameAndDescriptionCommand(
     Guid RecipeId,
     string? Name,
     string? Description);
 
-public static class UpdateRecipeNameAndDescriptionEndpoint
+public static class ChangeRecipeNameAndDescriptionEndpoint
 {
-    internal const string Endpoint = "/recipes/updateNameAndDescription";
+    internal const string Endpoint = "/recipes/changeNameAndDescription";
 
     public static async Task<ProblemDetails> LoadAsync(
-        UpdateRecipeNameAndDescriptionCommand command,
+        ChangeRecipeNameAndDescriptionCommand command,
         IDocumentSession session,
         CancellationToken cancellationToken)
     {
@@ -39,7 +39,7 @@ public static class UpdateRecipeNameAndDescriptionEndpoint
 
     [WolverinePut(Endpoint)]
     [AggregateHandler, EmptyResponse]
-    public static IEnumerable<object> Put(UpdateRecipeNameAndDescriptionCommand command, Recipe recipe)
+    public static IEnumerable<object> Put(ChangeRecipeNameAndDescriptionCommand command, Recipe recipe)
     {
         if (!string.IsNullOrEmpty(command.Name))
         {

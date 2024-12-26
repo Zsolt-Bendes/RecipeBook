@@ -87,7 +87,7 @@ namespace Marten.Generated.EventStore
                 case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepRemoved> event_StepRemoved11:
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepRemoved11.Data, aggregate);
                     break;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepUpdated> event_StepUpdated12:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeStepUpdated> event_StepUpdated12:
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepUpdated12.Data, aggregate);
                     break;
             }
@@ -177,7 +177,7 @@ namespace Marten.Generated.EventStore
                     aggregate ??= CreateDefault(evt);
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepRemoved23.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepUpdated> event_StepUpdated24:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeStepUpdated> event_StepUpdated24:
                     aggregate ??= CreateDefault(evt);
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepUpdated24.Data, aggregate);
                     return aggregate;

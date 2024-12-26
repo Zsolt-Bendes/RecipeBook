@@ -1,4 +1,5 @@
-﻿using Home.Recipes.Domain.Recipes;
+﻿using FluentValidation;
+using Home.Recipes.Domain.Recipes;
 using Home.Recipes.Domain.Recipes.Events;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,19 @@ public sealed record AddIngredientCommand(
     Guid RecipeId,
     IngredientType IngredientType,
     string Name,
-    double ValueBase);
+    double ValueBase)
+{
+    public sealed class AddIngredientCommandValidator : AbstractValidator<AddIngredientCommand>
+    {
+        public AddIngredientCommandValidator()
+        {
+            RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
+            RuleFor(_ => _.Name).NotEmpty().MaximumLength(RecipeConstants.MaxIngredientNameLength);
+            RuleFor(_ => _.ValueBase).GreaterThan(0);
+            RuleFor(_ => _.IngredientType).IsInEnum();
+        }
+    }
+};
 
 public enum IngredientType
 {

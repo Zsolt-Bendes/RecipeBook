@@ -57,4 +57,6 @@ public sealed class Fixture : IAsyncLifetime
 
         await session.SaveChangesAsync();
     }
+
+    public string GetLongTestString(int length) => new string('a', length);
 }

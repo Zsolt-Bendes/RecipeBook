@@ -1,23 +1,23 @@
-﻿namespace Home.Recipes.Api.Features.Recipes;
+﻿namespace Home.Recipes.Api.Features.Recipes.Commands;
 
-public sealed record ChangePreparationTimeCommand(Guid RecipeId, TimeSpan Time)
+public sealed record RemoveRecipeStepCommand(Guid RecipeId, int Index)
 {
-    public sealed class ChangePreparationTimeCommandValidator : AbstractValidator<ChangePreparationTimeCommand>
+    public sealed class RemoveRecipeStepCommandValidator : AbstractValidator<RemoveRecipeStepCommand>
     {
-        public ChangePreparationTimeCommandValidator()
+        public RemoveRecipeStepCommandValidator()
         {
             RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
-            RuleFor(_ => _.Time).GreaterThan(TimeSpan.Zero);
+            RuleFor(_ => _.Index).GreaterThanOrEqualTo(0);
         }
     }
 }
 
-public static class ChangePreparationTimeEndpoint
+public static class RemoveRecipeStepEndpoint
 {
-    internal const string Endpoint = "/recipes/changePreparationTime";
+    internal const string Endpoint = "/recipes/removeStep";
 
     public static async Task<ProblemDetails> LoadAsync(
-        ChangePreparationTimeCommand command,
+        RemoveRecipeStepCommand command,
         IDocumentSession session,
         CancellationToken cancellationToken)
     {
@@ -38,8 +38,8 @@ public static class ChangePreparationTimeEndpoint
 
     [WolverinePut(Endpoint)]
     [AggregateHandler, EmptyResponse]
-    public static PreparationTimeAdjusted Put(ChangePreparationTimeCommand command, Recipe recipe)
+    public static StepRemoved Put(RemoveRecipeStepCommand command, Recipe recipe)
     {
-        return new PreparationTimeAdjusted(command.Time);
+        return new StepRemoved(command.Index);
     }
 }

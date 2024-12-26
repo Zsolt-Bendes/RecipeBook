@@ -1,4 +1,4 @@
-﻿using Home.Recipes.Api.Features.Recipes;
+﻿using Home.Recipes.Api.Features.Recipes.Commands;
 using Home.Recipes.Domain.Recipes;
 using System.Net;
 

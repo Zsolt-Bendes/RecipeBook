@@ -1,4 +1,4 @@
-﻿using Home.Recipes.Api.Features.Recipes;
+﻿using Home.Recipes.Api.Features.Recipes.Commands;
 using System.Net;
 
 namespace Home.Recipes.IntegrationTests.Recipes;

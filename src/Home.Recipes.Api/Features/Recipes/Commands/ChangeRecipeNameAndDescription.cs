@@ -1,4 +1,4 @@
-﻿namespace Home.Recipes.Api.Features.Recipes;
+﻿namespace Home.Recipes.Api.Features.Recipes.Commands;
 
 public sealed record ChangeRecipeNameAndDescriptionCommand(
     Guid RecipeId,

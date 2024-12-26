@@ -1,6 +1,6 @@
 ﻿using Wolverine.Http.Marten;
 
-namespace Home.Recipes.Api.Features.Recipes;
+namespace Home.Recipes.Api.Features.Recipes.Commands;
 
 public static class DeleteRecipeEndpoint
 {

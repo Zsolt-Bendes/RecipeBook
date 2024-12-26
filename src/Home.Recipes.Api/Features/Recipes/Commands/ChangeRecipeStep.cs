@@ -1,23 +1,24 @@
-﻿namespace Home.Recipes.Api.Features.Recipes;
+﻿namespace Home.Recipes.Api.Features.Recipes.Commands;
 
-public sealed record ChangeCookingTimeCommand(Guid RecipeId, TimeSpan Time)
+public sealed record ChangeRecipeStepCommand(Guid RecipeId, int Index, string Text)
 {
-    public sealed class ChangeCookingTimeCommandValidator : AbstractValidator<ChangeCookingTimeCommand>
+    public sealed class ChangeRecipeStepCommandValidator : AbstractValidator<ChangeRecipeStepCommand>
     {
-        public ChangeCookingTimeCommandValidator()
+        public ChangeRecipeStepCommandValidator()
         {
             RuleFor(_ => _.RecipeId).NotEqual(Guid.Empty);
-            RuleFor(_ => _.Time).GreaterThan(TimeSpan.Zero);
+            RuleFor(_ => _.Index).GreaterThanOrEqualTo(0);
+            RuleFor(_ => _.Text).NotEmpty().MaximumLength(RecipeConstants.MaxStepLength);
         }
     }
 }
 
-public static class ChangeCookingTimeEndpoint
+public static class ChangeRecipeStepEndpoint
 {
-    internal const string Endpoint = "/recipes/changeCookingTime";
+    internal const string Endpoint = "/recipes/updateStep";
 
     public static async Task<ProblemDetails> LoadAsync(
-        ChangeCookingTimeCommand command,
+        ChangeRecipeStepCommand command,
         IDocumentSession session,
         CancellationToken cancellationToken)
     {
@@ -38,8 +39,8 @@ public static class ChangeCookingTimeEndpoint
 
     [WolverinePut(Endpoint)]
     [AggregateHandler, EmptyResponse]
-    public static CookingTimeAdjusted Put(ChangeCookingTimeCommand command, Recipe recipe)
+    public static RecipeStepUpdated Put(ChangeRecipeStepCommand command, Recipe recipe)
     {
-        return new CookingTimeAdjusted(command.Time);
+        return new RecipeStepUpdated(command.Text, command.Index);
     }
 }

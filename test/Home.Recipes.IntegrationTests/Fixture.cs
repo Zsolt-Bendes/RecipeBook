@@ -37,7 +37,9 @@ public sealed class Fixture : IAsyncLifetime
 
         var postgresUrl = _postgreSqlContainer.GetConnectionString() + ";Database=recipes;";
 
-        Host = await AlbaHost.For<Program>(x => x.ConfigureServices((ctx, collection) => collection.AddMarten(new MartenConfigurations(postgresUrl))));
+        Host = await AlbaHost.For<Program>(x => x.ConfigureServices((ctx, collection) => collection
+            .AddMarten(new MartenConfigurations(postgresUrl))
+            .UseLightweightSessions()));
 
         Store = Host.Services.GetRequiredService<IDocumentStore>();
     }

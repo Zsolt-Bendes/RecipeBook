@@ -14,9 +14,15 @@ public sealed class RecipeService
         _httpClient = httpClient;
     }
 
-    public async Task<RecipeListQueryResponse?> GetRecipesAsync(CancellationToken cancellationToken = default)
+    public async Task<RecipeListQueryResponse?> GetRecipesAsync(string? searchText, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/recipes", cancellationToken);
+        var url = "/recipes";
+        if (!string.IsNullOrEmpty(searchText))
+        {
+            url += $"?searchText={searchText}";
+        }
+
+        var response = await _httpClient.GetAsync(url, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         return await JsonSerializer.DeserializeAsync<RecipeListQueryResponse>(

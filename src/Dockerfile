@@ -12,6 +12,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Home.Recipes.Domain/Home.Recipes.Domain.csproj", "Home.Recipes.Domain/"]
 COPY ["Home.Recipes.Api/Home.Recipes.Api.csproj", "Home.Recipes.Api/"]
 RUN dotnet restore "./Home.Recipes.Api/Home.Recipes.Api.csproj"
 COPY . .

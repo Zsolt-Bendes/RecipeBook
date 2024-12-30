@@ -26,7 +26,7 @@ public static class RecipeDetailEndpoint
     internal const string Endpoint = "/recipes/{recipeId}";
 
     [WolverineGet(Endpoint)]
-    public static async Task<IResult> Get([Aggregate] Recipe recipe)
+    public static IResult Get([Aggregate] Recipe recipe)
     {
         if (recipe is null)
         {

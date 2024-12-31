@@ -1,3 +1,4 @@
+using Blazored.Modal;
 using Home.Recipes.WebClient;
 using Home.Recipes.WebClient.Services.Recipes;
 using Microsoft.AspNetCore.Components.Web;
@@ -13,5 +14,7 @@ builder.Services.AddHttpClient<RecipeService>(httpClient =>
 {
     httpClient.BaseAddress = new Uri(builder.Configuration.GetConnectionString("WebApi")!);
 });
+
+builder.Services.AddBlazoredModal();
 
 await builder.Build().RunAsync();

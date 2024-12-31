@@ -1,5 +1,7 @@
-﻿using Home.Recipes.WebClient.Services.Recipes;
+﻿using Blazored.Modal.Services;
+using Home.Recipes.WebClient.Services.Recipes;
 using Home.Recipes.WebClient.Services.Recipes.Models;
+using Microsoft.AspNetCore.Components;
 
 namespace Home.Recipes.WebClient.Pages;
 
@@ -13,6 +15,9 @@ public partial class Home
     {
         _recipeService = recipeService;
     }
+
+    [CascadingParameter]
+    public IModalService Modal { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

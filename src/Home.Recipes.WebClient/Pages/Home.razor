@@ -1,18 +1,60 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Recipes</PageTitle>
 
-<h1 class="text-3xl font-bold underline">
-    Hello world!
-</h1>
+<div class="flex">
+    <div class="flex border-4 p-2 space-x-4 rounded-lg w-full">
+        <img src="images/search.png" />
+        <input class="outline-none w-full"
+               type="text"
+               placeholder="search for recipes here"
+               @onchange="@(async _ => await SearchRecipesAsync(_.Value.ToString()))" />
+    </div>
 
-Welcome to your new app.
+    <button class="ml-6 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+        create
+    </button>
+</div>
 
-@if(_recipeList is null)
+@if (_recipeList is null)
 {
     <p>Loading</p>
 }
 else
 {
-    <p>Ok</p>
+    <div class="flex pt-4">
+        @foreach (var recipe in _recipeList.Recipes)
+        {
+            <article class="border-2 rounded h-72 w-48 text-wrap">
+                <div class="h-32 w-48 bg-cover bg-center">
+                    <img src="https://placehold.co/190x130" />
+                </div>
+                <div>
+
+                    @if (recipe.Name.Length > 12)
+                    {
+                        <h3 class="text-xl text-wrap">@recipe.Name[0..12]...</h3>
+                    }
+                    else
+                    {
+                        <h3 class="text-xl text-wrap">@recipe.Name</h3>
+                    }
+                  
+                    <div class="text-xs">
+                        <h4 class="text-xs">
+                            Preparation time:
+                            @recipe.PreparationTime.ToString(@"hh\:mm")
+                        </h4>
+                    </div class="text-xs">
+                    <div>
+                        <h4 class="text-xs">
+                            Cooking time:
+                            @recipe.CookingTime.ToString(@"hh\:mm")
+                        </h4>
+                    </div>
+                    <p>@recipe.Description</p>
+                </div>
+            </article>
+        }
+    </div>
 }

@@ -16,8 +16,13 @@ public partial class Home
 
     protected override async Task OnInitializedAsync()
     {
-        _recipeList = await _recipeService.GetRecipesAsync(null);
+        await SearchRecipesAsync(null);
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task SearchRecipesAsync(string? text)
+    {
+        _recipeList = await _recipeService.GetRecipesAsync(text);
     }
 }

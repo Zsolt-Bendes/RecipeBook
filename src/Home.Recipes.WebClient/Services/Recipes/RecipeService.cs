@@ -44,7 +44,7 @@ public sealed class RecipeService
 
     public async Task<CreateRecipeResponse?> CreateRecipeAsync(CreateRecipeCommand command, CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.PostAsJsonAsync($"/recipes", command, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync($"/recipes/create", command, cancellationToken);
         response.EnsureSuccessStatusCode();
 
         return await JsonSerializer.DeserializeAsync<CreateRecipeResponse>(

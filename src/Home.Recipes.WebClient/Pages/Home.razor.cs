@@ -8,12 +8,14 @@ namespace Home.Recipes.WebClient.Pages;
 public partial class Home
 {
     private readonly RecipeService _recipeService;
+    private readonly NavigationManager _navigationManager;
 
     private RecipeListQueryResponse? _recipeList;
 
-    public Home(RecipeService recipeService)
+    public Home(RecipeService recipeService, NavigationManager navigationManager)
     {
         _recipeService = recipeService;
+        _navigationManager = navigationManager;
     }
 
     [CascadingParameter]
@@ -29,5 +31,10 @@ public partial class Home
     private async Task SearchRecipesAsync(string? text)
     {
         _recipeList = await _recipeService.GetRecipesAsync(text);
+    }
+
+    private void NavigateToRecipeDetails(Guid recipeId)
+    {
+        _navigationManager.NavigateTo($"/recipes/{recipeId}");
     }
 }

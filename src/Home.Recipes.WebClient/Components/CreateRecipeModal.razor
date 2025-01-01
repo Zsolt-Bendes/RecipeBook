@@ -1,4 +1,5 @@
 ﻿@using Blazored.FluentValidation
+@using Home.Recipes.WebClient.Services.Recipes
 @using Home.Recipes.WebClient.Services.Recipes.Models
 @using System.Text.Json
 
@@ -10,9 +11,9 @@
             Name
         </label>
         <InputText @bind-Value="@_command.Name"
-                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                   id="recipe_name"
-                   placeholder="Recipe name" />
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="recipe_name"
+        placeholder="Recipe name" />
     </div>
 
     <div class="mb-4">
@@ -20,9 +21,9 @@
             Description
         </label>
         <InputTextArea @bind-Value="@_command.Description"
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                       id="recipe_description"
-                       placeholder="Description" />
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="recipe_description"
+        placeholder="Description" />
     </div>
 
     <div class="mb-4">
@@ -31,8 +32,8 @@
         </label>
 
         <InputNumber @bind-Value="@_command.PreparationTimeInMinutes"
-                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                   id="recipe_preparationTime" />
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="recipe_preparationTime" />
     </div>
 
     <div class="mb-4">
@@ -40,21 +41,46 @@
             Cooking time
         </label>
         <InputNumber @bind-Value="@_command.CookingTimeInMinutes"
-                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                     id="recipe_cookingTime" />
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="recipe_cookingTime" />
     </div>
 
     <div>
-        <button type="submit">Submit</button>
+        <button type="submit">
+            @if (_isLoading)
+            {
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            }
+            Submit
+        </button>
     </div>
 </EditForm>
 
 @code {
+    private readonly RecipeService _recipeService;
+    private readonly NavigationManager _navigationManager;
+
+    private bool _isLoading;
     private CreateRecipeCommand _command = new(string.Empty, string.Empty);
+
+    public CreateRecipeModal(RecipeService recipeService, NavigationManager navigationManager)
+    {
+        _recipeService = recipeService;
+        _navigationManager = navigationManager;
+    }
 
     private async Task Submit()
     {
-        var json = JsonSerializer.Serialize(_command);
-        Console.WriteLine(json);
+        _isLoading = true;
+        var result = await _recipeService.CreateRecipeAsync(_command);
+        _isLoading = false;
+
+        if (result is not null)
+        {
+            _navigationManager.NavigateTo($"/recipes/{result.RecipeId}");
+        }
     }    
 }

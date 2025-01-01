@@ -12,7 +12,7 @@
     </div>
 
     <button class="ml-6 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-        @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">
+            @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">
         create
     </button>
 </div>
@@ -23,39 +23,43 @@
 }
 else
 {
-    <div class="flex pt-4">
+    <div class="grid gap-4 grid-cols-5 mt-4">
         @foreach (var recipe in _recipeList.Recipes)
         {
-            <article class="border-2 rounded h-72 w-48 text-wrap">
-                <div class="h-32 w-48 bg-cover bg-center">
-                    <img src="https://placehold.co/190x130" />
-                </div>
-                <div>
-
-                    @if (recipe.Name.Length > 12)
-                    {
-                        <h3 class="text-xl text-wrap">@recipe.Name[0..12]...</h3>
-                    }
-                    else
-                    {
-                        <h3 class="text-xl text-wrap">@recipe.Name</h3>
-                    }
-                  
-                    <div class="text-xs">
-                        <h4 class="text-xs">
-                            Preparation time:
-                            @recipe.PreparationTime.ToString(@"hh\:mm")
-                        </h4>
-                    </div class="text-xs">
-                    <div>
-                        <h4 class="text-xs">
-                            Cooking time:
-                            @recipe.CookingTime.ToString(@"hh\:mm")
-                        </h4>
+            <div class="max-w-sm rounded overflow-hidden shadow-lg" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
+                <img class="w-full" src="https://placehold.co/190x130">
+                <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">
+                        @if (recipe.Name.Length > 16)
+                        {
+                            @recipe.Name[0..16]
+                            <span>...</span>
+                        }
+                        else
+                        {
+                            @recipe.Name
+                        }
                     </div>
-                    <p>@recipe.Description</p>
+                    <p class="text-gray-700 text-base">
+                        @recipe.Description
+                    </p>
                 </div>
-            </article>
+                <div class="flex flex-row px-6 py-4 text-xs cursor-default">
+                    <div class="flex flex-row px-1 py-1 mr-1" title="preparation time">
+                        <img class="w-5 h-5" src="/images/preparation-time.png" />
+                        <span title="preparation time" class="ml-0.5 mt-0.5 cursor-default">@recipe.PreparationTime.ToString(@"hh\:mm")</span>
+                    </div>
+                    <div class="flex flex-row px-1 py-1 cursor-default" title="cooking time">
+                        <img class="w-5 h-5" src="/images/cooking-time.png" />
+                        <span title="cooking time" class="ml-0.5 mt-0.5 cursor-default">@recipe.CookingTime.ToString(@"hh\:mm")</span>
+                    </div>
+                </div>
+                @*   <div class="px-6 pt-4 pb-2">
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
+                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
+                </div> *@
+            </div>
         }
     </div>
 }

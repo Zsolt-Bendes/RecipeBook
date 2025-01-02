@@ -593,10 +593,6 @@ video {
   margin-right: auto;
 }
 
-.-ml-1 {
-  margin-left: -0.25rem;
-}
-
 .mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -607,6 +603,10 @@ video {
 
 .ml-0\.5 {
   margin-left: 0.125rem;
+}
+
+.ml-1 {
+  margin-left: 0.25rem;
 }
 
 .ml-6 {
@@ -673,6 +673,10 @@ video {
 
 .animate-spin {
   animation: spin 1s linear infinite;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 .appearance-none {

@@ -52,4 +52,52 @@ public sealed class RecipeService
            _jsonSerializerOptions,
            cancellationToken);
     }
+
+    public async Task DeleteRecipeAsync(Guid recipeId, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.DeleteAsync($"/recipes/{recipeId}", cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task AddRecipeStepAsync(CreateRecipeCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/addStep", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task RemoveRecipeStepAsync(RemoveRecipeStepCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/removeStep", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task AddRecipeIngredientAsync(AddIngredientCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/addIngredient", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task RemoveRecipeIngredientAsync(RemoveIngredientCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/removeIngredient", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task ChangePreparationTimeAsync(ChangePreparationTimeCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/changePreparationTime", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task ChangeCookingTimeAsync(ChangeCookingTimeCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/changeCookingTime", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
+    public async Task ChangeRecipeNameAndDescriptionAsync(ChangeRecipeNameAndDescriptionCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/changeNameAndDescription", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
 }

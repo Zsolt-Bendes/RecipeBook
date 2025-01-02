@@ -1,0 +1,11 @@
+﻿<p>Are you sure you want to delete this?</p>
+
+<button class="" @onclick="@(async () => await SubmitForm())">Delete</button>
+<button @onclick="@(async () => await Cancel())">Cancel</button>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(true));
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

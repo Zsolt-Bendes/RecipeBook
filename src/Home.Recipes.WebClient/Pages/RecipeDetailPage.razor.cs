@@ -1,4 +1,6 @@
-﻿using Home.Recipes.WebClient.Services.Recipes;
+﻿using Blazored.Modal.Services;
+using Home.Recipes.WebClient.Components;
+using Home.Recipes.WebClient.Services.Recipes;
 using Home.Recipes.WebClient.Services.Recipes.Models;
 using Microsoft.AspNetCore.Components;
 
@@ -19,9 +21,23 @@ public partial class RecipeDetailPage
     [Parameter]
     public Guid RecipeId { get; set; }
 
+    [CascadingParameter] IModalService Modal { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
         _recipeDetail = await _recipeService.GetRecipeDetailsAsync(RecipeId);
         await base.OnInitializedAsync();
+    }
+
+    private async Task DeleteRecipeAsync()
+    {
+        var confirmationDialog = Modal.Show<DeleteRecipeConfirmationModal>("Delete Recipe");
+        var result = await confirmationDialog.Result;
+
+        if (result.Confirmed)
+        {
+            await _recipeService.DeleteRecipeAsync(RecipeId);
+            _navigationManager.NavigateTo("/");
+        }
     }
 }

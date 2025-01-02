@@ -1,6 +1,8 @@
 ﻿@page "/recipes/{recipeId:guid}"
 
-<button @onclick="@(_ => _navigationManager.NavigateTo("/"))">back</button>
+<button @onclick="@(() => _navigationManager.NavigateTo("/"))">back</button>
+
+<button @onclick="DeleteRecipeAsync">Delete</button>
 
 @if(_recipeDetail is null)
 {

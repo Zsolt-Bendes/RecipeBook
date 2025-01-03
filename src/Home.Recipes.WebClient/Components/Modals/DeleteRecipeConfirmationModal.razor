@@ -1,7 +1,9 @@
-﻿<p>Are you sure you want to delete this?</p>
+﻿@using Home.Recipes.WebClient.Components.Buttons
+
+<p>Are you sure you want to delete this?</p>
 
 <button class="" @onclick="@(async () => await SubmitForm())">Delete</button>
-<button @onclick="@(async () => await Cancel())">Cancel</button>
+<SecondaryButton @onclick="@(async () => await Cancel())">Cancel</SecondaryButton>
 
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;

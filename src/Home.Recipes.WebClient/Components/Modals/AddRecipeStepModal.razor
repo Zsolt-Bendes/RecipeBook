@@ -1,0 +1,41 @@
+﻿@using Home.Recipes.WebClient.Services.Recipes.Models
+@using Home.Recipes.WebClient.Services.Recipes
+@using Blazored.FluentValidation
+@using Home.Recipes.WebClient.Components.Buttons
+
+<EditForm Model="_command" OnSubmit="SubmitForm" FormName="add_recipe_step">
+    <FluentValidationValidator />
+
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="step">
+            Name
+        </label>
+        <InputText @bind-Value="@_command.Text"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="recipe_name"
+            placeholder="Please write down the step that needs to be done" />
+
+        <button type="submit">Add</button>
+        <SecondaryButton @onclick="Cancel">Cancel</SecondaryButton>
+    </div>
+</EditForm>
+
+@code {
+    private AddRecipeStepCommand _command = null!;
+
+    [Parameter]
+    public Guid RecipeId { get; set; }
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _command = new(RecipeId);
+
+        base.OnInitialized();
+    }
+
+    private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok(_command));
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

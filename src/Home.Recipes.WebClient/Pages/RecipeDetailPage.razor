@@ -1,10 +1,15 @@
 ﻿@page "/recipes/{recipeId:guid}"
+@using global::Home.Recipes.WebClient.Components.Buttons
 
-<button @onclick="@(() => _navigationManager.NavigateTo("/"))">back</button>
+<div class="flex flex-row justify-between">
+    <SecondaryButton @onclick="@(() => _navigationManager.NavigateTo("/"))">back</SecondaryButton>
+    <div>
+        <SecondaryButton @onclick="@(() => _editMode = true)">Edit</SecondaryButton>
+        <button @onclick="DeleteRecipeAsync">Delete</button>
+    </div>
+</div>
 
-<button @onclick="DeleteRecipeAsync">Delete</button>
-
-@if(_recipeDetail is null)
+@if (_recipeDetail is null)
 {
     <p>Loading...</p>
 }
@@ -13,4 +18,41 @@ else
     <PageTitle>@_recipeDetail.Name</PageTitle>
 
     <h1>@_recipeDetail.Name</h1>
+
+    <section>
+        @if (_editMode)
+        {
+            <button @onclick="AddRecipeStepAsync">Add step</button>
+        }
+
+        <ol>
+            @foreach (var item in _recipeDetail.Steps)
+            {
+                <li>
+                    @if (_editMode)
+                    {
+                        <div class="flex flex-row">
+                            @item
+                            <SecondaryButton>edit</SecondaryButton>
+                            <button>delete</button>
+                        </div>
+                    }
+                    else
+                    {
+                        @item
+                    }
+                </li>
+            }
+
+        </ol>
+    </section>
+
+    <section>
+        <ol>
+            @foreach (var item in _recipeDetail.Ingredients)
+            {
+                <li>@item.Name</li>
+            }
+        </ol>
+    </section>
 }

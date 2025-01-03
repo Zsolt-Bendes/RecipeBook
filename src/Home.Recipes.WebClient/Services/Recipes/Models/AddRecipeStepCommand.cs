@@ -1,7 +1,17 @@
 ﻿namespace Home.Recipes.WebClient.Services.Recipes.Models;
 
-public sealed record AddRecipeStepCommand(Guid RecipeId, string Text)
+public sealed class AddRecipeStepCommand
 {
+    public AddRecipeStepCommand(Guid recipeId)
+    {
+        RecipeId = recipeId;
+        Text = string.Empty;
+    }
+
+    public Guid RecipeId { get; }
+
+    public string Text { get; set; }
+
     public sealed class AddRecipeStepCommandValidator : AbstractValidator<AddRecipeStepCommand>
     {
         public AddRecipeStepCommandValidator()

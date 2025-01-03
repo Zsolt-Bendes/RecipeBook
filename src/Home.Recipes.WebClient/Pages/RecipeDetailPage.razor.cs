@@ -1,5 +1,6 @@
-﻿using Blazored.Modal.Services;
-using Home.Recipes.WebClient.Components;
+﻿using Blazored.Modal;
+using Blazored.Modal.Services;
+using Home.Recipes.WebClient.Components.Modals;
 using Home.Recipes.WebClient.Services.Recipes;
 using Home.Recipes.WebClient.Services.Recipes.Models;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +11,9 @@ public partial class RecipeDetailPage
 {
     private readonly RecipeService _recipeService;
     private readonly NavigationManager _navigationManager;
+
     private RecipeDetailResponse? _recipeDetail;
+    private bool _editMode;
 
     public RecipeDetailPage(RecipeService recipeService, NavigationManager navigationManager)
     {
@@ -38,6 +41,22 @@ public partial class RecipeDetailPage
         {
             await _recipeService.DeleteRecipeAsync(RecipeId);
             _navigationManager.NavigateTo("/");
+        }
+    }
+
+    private async Task AddRecipeStepAsync()
+    {
+        var parameters = new ModalParameters().Add(nameof(AddRecipeStepModal.RecipeId), RecipeId);
+
+        var dialog = Modal.Show<AddRecipeStepModal>("Add new step", parameters);
+        var result = await dialog.Result;
+
+        if (result.Confirmed)
+        {
+            var command = result.Data as AddRecipeStepCommand;
+            await _recipeService.AddRecipeStepAsync(command!);
+
+            _recipeDetail!.Steps.Add(command!.Text);
         }
     }
 }

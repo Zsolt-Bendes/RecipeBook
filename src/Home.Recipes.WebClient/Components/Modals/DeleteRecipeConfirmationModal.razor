@@ -2,8 +2,10 @@
 
 <p>Are you sure you want to delete this?</p>
 
-<button class="" @onclick="@(async () => await SubmitForm())">Delete</button>
-<SecondaryButton @onclick="@(async () => await Cancel())">Cancel</SecondaryButton>
+<div class="bg-gray-50 flex flex-row-reverse mt-2">
+    <DeleteButton @onclick="@(async () => await SubmitForm())">Delete</DeleteButton>
+    <SecondaryButton class="ml-1" @onclick="@(async () => await Cancel())">Cancel</SecondaryButton>
+</div>
 
 @code {
     [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;

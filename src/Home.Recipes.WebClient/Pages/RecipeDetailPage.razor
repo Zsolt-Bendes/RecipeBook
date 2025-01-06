@@ -2,12 +2,20 @@
 @using global::Home.Recipes.WebClient.Components.Buttons
 
 <div class="flex flex-row justify-between">
-    <SecondaryButton @onclick="@(() => _navigationManager.NavigateTo("/"))">back</SecondaryButton>
+    <div class="flex flex-row">
+        <SecondaryButton @onclick="@(() => _navigationManager.NavigateTo("/"))">back</SecondaryButton>
+        @if (_recipeDetail is not null)
+        {
+            <h1 class="text-2xl font-bold ml-3">@_recipeDetail.Name</h1>
+        }
+    </div>
     <div>
-        <SecondaryButton @onclick="@(() => _editMode = true)">Edit</SecondaryButton>
-        <button @onclick="DeleteRecipeAsync">Delete</button>
+        <SecondaryButton class="mr-1" @onclick="@(() => _editMode = true)">Edit</SecondaryButton>
+        <DeleteButton @onclick="DeleteRecipeAsync">Delete</DeleteButton>
     </div>
 </div>
+
+<hr class="my-4 border-2" />
 
 @if (_recipeDetail is null)
 {
@@ -17,42 +25,72 @@ else
 {
     <PageTitle>@_recipeDetail.Name</PageTitle>
 
-    <h1>@_recipeDetail.Name</h1>
+    <div class="flex">
+        <div class="basis-1/2">
+            <img class="w-full" src="https://placehold.co/190x130">
+        </div>
 
-    <section>
-        @if (_editMode)
-        {
-            <button @onclick="AddRecipeStepAsync">Add step</button>
-        }
+        <div class="flex flex-col">
+            <div class="ml-3">
+                <h3 class="text-xl font-bold mb-2">Description</h3>
+                <p>@_recipeDetail.Description</p>
+            </div>
 
-        <ol>
-            @foreach (var item in _recipeDetail.Steps)
+            <div class="flex flex-row text-xs cursor-default basis-1/5">
+                <div class="flex flex-row px-1 py-1 mr-1" title="preparation time">
+                    <img class="w-8 h-8" src="/images/preparation-time.png" />
+                    <span class="ml-2.5 mt-2.5">Preparation time:</span>
+                    <span title="preparation time" class="ml-2.5 mt-2.5 cursor-default">@_recipeDetail.PreparationTime.ToString(@"hh\:mm")</span>
+                </div>
+                <div class="flex flex-row px-1 py-1 cursor-default" title="cooking time">
+                    <img class="w-8 h-8" src="/images/cooking-time.png" />
+                    <span class="ml-2.5 mt-2.5">Cooking time:</span>
+                    <span title="cooking time" class="ml-2.5 mt-2.5 cursor-default">@_recipeDetail.CookingTime.ToString(@"hh\:mm")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-row">
+
+        <h3 class="text-xl font-bold">Ingredients</h3>
+
+        <section class="basis-1/2">
+            <ol>
+                @foreach (var item in _recipeDetail.Ingredients)
+                {
+                    <li>@item.Name</li>
+                }
+            </ol>
+        </section>
+
+        <section class="basis-1/2">
+            <h3 class="text-xl font-bold">Steps</h3>
+            @if (_editMode)
             {
-                <li>
-                    @if (_editMode)
-                    {
-                        <div class="flex flex-row">
+                <SecondaryButton @onclick="AddRecipeStepAsync">Add step</SecondaryButton>
+            }
+
+            <ol>
+                @foreach (var item in _recipeDetail.Steps)
+                {
+                    <li>
+                        @if (_editMode)
+                        {
+                            <div class="flex flex-row">
+                                @item
+                                <SecondaryButton>edit</SecondaryButton>
+                                <button>delete</button>
+                            </div>
+                        }
+                        else
+                        {
                             @item
-                            <SecondaryButton>edit</SecondaryButton>
-                            <button>delete</button>
-                        </div>
-                    }
-                    else
-                    {
-                        @item
-                    }
-                </li>
-            }
+                        }
+                    </li>
+                }
 
-        </ol>
-    </section>
-
-    <section>
-        <ol>
-            @foreach (var item in _recipeDetail.Ingredients)
-            {
-                <li>@item.Name</li>
-            }
-        </ol>
-    </section>
+            </ol>
+        </section>
+    </div>
 }

@@ -3,7 +3,7 @@
 @using Blazored.FluentValidation
 @using Home.Recipes.WebClient.Components.Buttons
 
-<EditForm Model="_command" OnSubmit="SubmitForm" FormName="add_recipe_step">
+<EditForm Model="_command" OnValidSubmit="SubmitForm" FormName="add_recipe_step">
     <FluentValidationValidator />
 
     <div class="mb-4">
@@ -11,12 +11,14 @@
             Name
         </label>
         <InputText @bind-Value="@_command.Text"
-            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="recipe_name"
-            placeholder="Please write down the step that needs to be done" />
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   id="recipe_name"
+                   placeholder="Please write down the step that needs to be done" />
 
-        <button type="submit">Add</button>
-        <SecondaryButton @onclick="Cancel">Cancel</SecondaryButton>
+        <div class="bg-gray-50 flex mt-2 flex-end flex-row-reverse">
+            <PrimaryButton type="submit">Add</PrimaryButton>
+            <SecondaryButton class="mr-1" @onclick="Cancel">Cancel</SecondaryButton>
+        </div>
     </div>
 </EditForm>
 

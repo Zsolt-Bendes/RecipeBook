@@ -1,0 +1,12 @@
+﻿<button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        @attributes="AdditionalAttributes">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = null!;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
+}

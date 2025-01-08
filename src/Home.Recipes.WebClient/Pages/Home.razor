@@ -13,7 +13,7 @@
                @onchange="@(async _ => await SearchRecipesAsync(_.Value.ToString()))" />
     </div>
 
-    <SecondaryButton class="" @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">
+    <SecondaryButton @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">
         Create
     </SecondaryButton>
 </div>

@@ -71,6 +71,12 @@ public sealed class RecipeService
         response.EnsureSuccessStatusCode();
     }
 
+    public async Task ChangeRecipeStepAsync(ChangeRecipeStepCommand command, CancellationToken cancellationToken = default)
+    {
+        var response = await _httpClient.PutAsJsonAsync($"/recipes/updateStep", command, cancellationToken);
+        response.EnsureSuccessStatusCode();
+    }
+
     public async Task AddRecipeIngredientAsync(AddIngredientCommand command, CancellationToken cancellationToken = default)
     {
         var response = await _httpClient.PutAsJsonAsync($"/recipes/addIngredient", command, cancellationToken);

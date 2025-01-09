@@ -1,0 +1,61 @@
+﻿@using Home.Recipes.WebClient.Services.Recipes.Models
+@using Home.Recipes.WebClient.Services.Recipes
+@using Blazored.FluentValidation
+@using Home.Recipes.WebClient.Components.Buttons
+
+<EditForm Model="_command" OnValidSubmit="SubmitForm" FormName="update_recipe_step">
+    <FluentValidationValidator />
+
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="step">
+            Step desciption
+        </label>
+        <InputText @bind-Value="@_command.Text"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="step_description"
+        placeholder="Please write down the step that needs to be done" />
+
+        <div class="bg-gray-50 flex mt-2 flex-end flex-row-reverse">
+            <PrimaryButton disabled="@(_isLoading)" type="submit">Update</PrimaryButton>
+            <SecondaryButton disabled="@(_isLoading)" Class="mx-1" @onclick="Cancel">Cancel</SecondaryButton>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private ChangeRecipeStepCommand _command = null!;
+    private readonly RecipeService _recipeService;
+    private bool _isLoading = false;
+
+    [Parameter]
+    public Guid RecipeId { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public string Text { get; set; }
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    public EditRecipeStepModal(RecipeService recipeService)
+    {
+        _recipeService = recipeService;
+    }
+
+    protected override void OnInitialized()
+    {
+        _command = new(RecipeId, Index, Text);
+
+        base.OnInitialized();
+    }
+
+    private async Task SubmitForm() 
+    {
+        _isLoading = true;
+        await _recipeService.ChangeRecipeStepAsync(_command);
+        await BlazoredModal.CloseAsync(ModalResult.Ok(_command));
+    }
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

@@ -59,4 +59,34 @@ public partial class RecipeDetailPage
             _recipeDetail!.Steps.Add(command!.Text);
         }
     }
+
+    private async Task RemoveRecipeStepAsync(int index)
+    {
+        var confirmationDialog = Modal.Show<DeleteRecipeConfirmationModal>("Remove step");
+        var result = await confirmationDialog.Result;
+
+        if (result.Confirmed)
+        {
+            await _recipeService.RemoveRecipeStepAsync(new RemoveRecipeStepCommand(RecipeId, index));
+            _recipeDetail!.Steps.RemoveAt(index);
+        }
+    }
+
+    private async Task EditRecipeAsync(int index)
+    {
+        var currentText = _recipeDetail!.Steps[index];
+        var parameters = new ModalParameters()
+            .Add(nameof(EditRecipeStepModal.RecipeId), RecipeId)
+            .Add(nameof(EditRecipeStepModal.Index), index)
+            .Add(nameof(EditRecipeStepModal.Text), currentText);
+
+        var dialog = Modal.Show<EditRecipeStepModal>("Edit step", parameters);
+        var result = await dialog.Result;
+
+        if (result.Confirmed)
+        {
+            var command = result.Data as ChangeRecipeStepCommand;
+            _recipeDetail!.Steps[index] = command!.Text;
+        }
+    }
 }

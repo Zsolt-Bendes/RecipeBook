@@ -64,32 +64,27 @@ else
             </ol>
         </section>
 
-        <section class="basis-1/2">
-            <h3 class="text-xl font-bold">Steps</h3>
-            @if (_editMode)
-            {
-                <SecondaryButton @onclick="AddRecipeStepAsync">Add step</SecondaryButton>
-            }
+        <section class="basis-1/2 border rounded p-2">
+            <div class="flex flex-row mb-2">
+                <h3 class="text-xl font-bold">Steps</h3>
+                <IconButton Class="ml-2" @onclick="AddRecipeStepAsync" />
+            </div>
 
             <ol>
                 @foreach (var item in _recipeDetail.Steps)
                 {
-                    <li>
-                        @if (_editMode)
-                        {
-                            <div class="flex flex-row">
+                    <li class="w-full mb-2">
+                        <div class="border border-sky-500 rounded bg-gray-200 flex flex-row justify-between p-4">
+                            <div class="basis-1/2">
                                 @item
-                                <SecondaryButton>edit</SecondaryButton>
-                                <button>delete</button>
                             </div>
-                        }
-                        else
-                        {
-                            @item
-                        }
+                            <div>
+                                <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                                <IconButton ButtonType=ButtonType.Delete Class="ml-2" @onclick="@(async () => await  RemoveRecipeStepAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                            </div>
+                        </div>
                     </li>
                 }
-
             </ol>
         </section>
     </div>

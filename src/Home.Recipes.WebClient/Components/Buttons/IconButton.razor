@@ -1,0 +1,26 @@
+﻿@inherits CompBase
+
+<button class="@Class rounded-full hover:bg-gray-500"
+        @attributes="AdditionalAttributes">
+    @if (ButtonType is ButtonType.Add)
+    {
+        <img class="h-7 w-7" src="/images/add.png" />
+    }
+    @if (ButtonType is ButtonType.Edit)
+    {
+        <img class="h-7 w-7" src="/images/edit.png" />
+    }
+    @if (ButtonType is ButtonType.Delete)
+    {
+        <img class="h-7 w-7" src="/images/delete.png" />
+    }
+</button>
+
+@code {
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    [Parameter]
+    public ButtonType ButtonType { get; set; } = ButtonType.Add;
+}

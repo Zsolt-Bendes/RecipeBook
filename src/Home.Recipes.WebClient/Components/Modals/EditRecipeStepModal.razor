@@ -57,5 +57,6 @@
         await _recipeService.ChangeRecipeStepAsync(_command);
         await BlazoredModal.CloseAsync(ModalResult.Ok(_command));
     }
+
     private async Task Cancel() => await BlazoredModal.CancelAsync();
 }

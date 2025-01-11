@@ -89,4 +89,19 @@ public partial class RecipeDetailPage
             _recipeDetail!.Steps[index] = command!.Text;
         }
     }
+
+    private async Task AddRecipeIngredientAsync()
+    {
+        var parameters = new ModalParameters()
+           .Add(nameof(EditRecipeStepModal.RecipeId), RecipeId);
+
+        var dialog = Modal.Show<AddRecipeIngredientModal>("Add new ingredient", parameters);
+        var result = await dialog.Result;
+
+        if (result.Confirmed)
+        {
+            var command = result.Data as AddIngredientCommand;
+            //_recipeDetail!.Ingredients.Add(new RecipeDetailResponse.Ingredient(command!.Name, command!.Amount));
+        }
+    }
 }

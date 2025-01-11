@@ -1,11 +1,20 @@
 ﻿namespace Home.Recipes.WebClient.Services.Recipes.Models;
 
-public sealed record AddIngredientCommand(
-    Guid RecipeId,
-    IngredientType IngredientType,
-    string Name,
-    double ValueBase)
+public sealed class AddIngredientCommand
 {
+    public AddIngredientCommand(Guid recipeId)
+    {
+        RecipeId = recipeId;
+    }
+
+    public Guid RecipeId { get; set; }
+
+    public IngredientType IngredientType { get; set; }
+
+    public string Name { get; set; }
+
+    public double ValueBase { get; set; }
+
     public sealed class AddIngredientCommandValidator : AbstractValidator<AddIngredientCommand>
     {
         public AddIngredientCommandValidator()
@@ -16,4 +25,4 @@ public sealed record AddIngredientCommand(
             RuleFor(_ => _.IngredientType).IsInEnum();
         }
     }
-};
+}

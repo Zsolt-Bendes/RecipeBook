@@ -63,6 +63,9 @@ namespace Marten.Generated.EventStore
                 case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.FluidIngredientAdded> event_FluidIngredientAdded3:
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_FluidIngredientAdded3.Data, aggregate);
                     break;
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.IngredientChanged> event_IngredientChanged13:
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_IngredientChanged13.Data, aggregate);
+                    break;
                 case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.IngredientRemoved> event_IngredientRemoved6:
                     Home.Recipes.Domain.Recipes.Recipe.Apply(event_IngredientRemoved6.Data, aggregate);
                     break;
@@ -124,62 +127,66 @@ namespace Marten.Generated.EventStore
         {
             switch (evt)
             {
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.CookingTimeAdjusted> event_CookingTimeAdjusted14:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.CookingTimeAdjusted> event_CookingTimeAdjusted15:
                     aggregate ??= CreateDefault(evt);
-                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_CookingTimeAdjusted14.Data, aggregate);
+                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_CookingTimeAdjusted15.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.FluidIngredientAdded> event_FluidIngredientAdded15:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.FluidIngredientAdded> event_FluidIngredientAdded16:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_FluidIngredientAdded15.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_FluidIngredientAdded16.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.IngredientRemoved> event_IngredientRemoved18:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.IngredientChanged> event_IngredientChanged26:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_IngredientRemoved18.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_IngredientChanged26.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.MassIngredientAdded> event_MassIngredientAdded16:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.IngredientRemoved> event_IngredientRemoved19:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_MassIngredientAdded16.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_IngredientRemoved19.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.PieceIngredientAdded> event_PieceIngredientAdded17:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.MassIngredientAdded> event_MassIngredientAdded17:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_PieceIngredientAdded17.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_MassIngredientAdded17.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.PreparationTimeAdjusted> event_PreparationTimeAdjusted19:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.PieceIngredientAdded> event_PieceIngredientAdded18:
                     aggregate ??= CreateDefault(evt);
-                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_PreparationTimeAdjusted19.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_PieceIngredientAdded18.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeCreated> event_RecipeCreated25:
-                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Create(event_RecipeCreated25.Data);
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.PreparationTimeAdjusted> event_PreparationTimeAdjusted20:
+                    aggregate ??= CreateDefault(evt);
+                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_PreparationTimeAdjusted20.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeDeleted> event_RecipeDeleted26:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeCreated> event_RecipeCreated27:
+                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Create(event_RecipeCreated27.Data);
+                    return aggregate;
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeDeleted> event_RecipeDeleted28:
                     aggregate ??= CreateDefault(evt);
                     if (aggregate == null) return null;
-                    var result_of_ShouldDelete1 = Home.Recipes.Domain.Recipes.Recipe.ShouldDelete(event_RecipeDeleted26.Data, aggregate);
+                    var result_of_ShouldDelete1 = Home.Recipes.Domain.Recipes.Recipe.ShouldDelete(event_RecipeDeleted28.Data, aggregate);
                     if (result_of_ShouldDelete1)
                     {
                         return null;
                     }
 
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeDescriptionChanged> event_RecipeDescriptionChanged20:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeDescriptionChanged> event_RecipeDescriptionChanged21:
                     aggregate ??= CreateDefault(evt);
-                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeDescriptionChanged20.Data, aggregate);
+                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeDescriptionChanged21.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeNameChanged> event_RecipeNameChanged21:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeNameChanged> event_RecipeNameChanged22:
                     aggregate ??= CreateDefault(evt);
-                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeNameChanged21.Data, aggregate);
+                    aggregate = Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeNameChanged22.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeStepUpdated> event_RecipeStepUpdated24:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeStepUpdated> event_RecipeStepUpdated25:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeStepUpdated24.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_RecipeStepUpdated25.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepAdded> event_StepAdded22:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepAdded> event_StepAdded23:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepAdded22.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepAdded23.Data, aggregate);
                     return aggregate;
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepRemoved> event_StepRemoved23:
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.StepRemoved> event_StepRemoved24:
                     aggregate ??= CreateDefault(evt);
-                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepRemoved23.Data, aggregate);
+                    Home.Recipes.Domain.Recipes.Recipe.Apply(event_StepRemoved24.Data, aggregate);
                     return aggregate;
             }
 
@@ -191,8 +198,8 @@ namespace Marten.Generated.EventStore
         {
             switch (@event)
             {
-                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeCreated> event_RecipeCreated13:
-                    return Home.Recipes.Domain.Recipes.Recipe.Create(event_RecipeCreated13.Data);
+                case Marten.Events.IEvent<Home.Recipes.Domain.Recipes.Events.RecipeCreated> event_RecipeCreated14:
+                    return Home.Recipes.Domain.Recipes.Recipe.Create(event_RecipeCreated14.Data);
                     break;
             }
 

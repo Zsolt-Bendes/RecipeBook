@@ -1,5 +1,6 @@
 ﻿@page "/recipes/{recipeId:guid}"
 @using global::Home.Recipes.WebClient.Components.Buttons
+@using global::Home.Recipes.WebClient.Services.Recipes.Models
 
 <div class="flex flex-row justify-between">
     <div class="flex flex-row">
@@ -67,12 +68,24 @@ else
                                 <div class="flex flex-row">
                                     <span>@item.Name</span>
                                     <span class="ml-2">@item.Value</span>
-                                    <span class="ml-2">@item.Type</span>
+                    
+                                    @if (item.Type == IngredientType.Piece)
+                                    {
+                                        <span class="ml-2">pieces</span>
+                                    }
+                                    @if (item.Type == IngredientType.Mass)
+                                    {
+                                        <span class="ml-2">gram</span>
+                                    }
+                                    @if (item.Type == IngredientType.Fluid)
+                                    {
+                                        <span class ="ml-2">ml</span>
+                                    }
                                 </div>
                             </div>
                             <div>
-                                <IconButton ButtonType=ButtonType.Edit />
-                                <IconButton ButtonType=ButtonType.Delete Class="ml-2" />
+                                <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" />
+                                <IconButton ButtonType=ButtonType.Delete @onclick="@(async () => await RemoveRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" Class="ml-2" />
                             </div>
                         </div>
                     </li>

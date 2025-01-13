@@ -1,6 +1,7 @@
 ﻿using Home.Recipes.Domain.Recipes.Events;
 using Home.Recipes.Domain.Recipes.Exceptions;
 using Home.Recipes.Domain.Recipes.ValueObjects;
+using UnitsNet.Units;
 
 namespace Home.Recipes.Domain.Recipes;
 
@@ -105,6 +106,37 @@ public sealed record Recipe(
         }
 
         recipe.Steps[stepUpdated.Index] = new RecipeStep(stepUpdated.Text);
+    }
+
+    public static void Apply(IngredientChanged pieceIngredientChanged, Recipe recipe)
+    {
+        if (pieceIngredientChanged.Index < 0 || pieceIngredientChanged.Index >= recipe.Ingredients.Count)
+        {
+            throw new IngredientNotFoundException(recipe.Id, pieceIngredientChanged.Index);
+        }
+
+        if (recipe.Ingredients[pieceIngredientChanged.Index] is PieceIngredient)
+        {
+            recipe.Ingredients[pieceIngredientChanged.Index] = new PieceIngredient(
+                pieceIngredientChanged.Name,
+                pieceIngredientChanged.Value);
+        }
+
+        if (recipe.Ingredients[pieceIngredientChanged.Index] is MassIngredient)
+        {
+            recipe.Ingredients[pieceIngredientChanged.Index] = new MassIngredient(
+                pieceIngredientChanged.Name,
+                MassUnit.Milligram,
+                pieceIngredientChanged.Value);
+        }
+
+        if (recipe.Ingredients[pieceIngredientChanged.Index] is FluidIngredient)
+        {
+            recipe.Ingredients[pieceIngredientChanged.Index] = new FluidIngredient(
+                pieceIngredientChanged.Name,
+                VolumeUnit.Milliliter,
+                pieceIngredientChanged.Value);
+        }
     }
 
     public static bool ShouldDelete(RecipeDeleted recipeDeleted, Recipe recipe) => true;

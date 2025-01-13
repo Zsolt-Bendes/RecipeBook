@@ -101,7 +101,43 @@ public partial class RecipeDetailPage
         if (result.Confirmed)
         {
             var command = result.Data as AddIngredientCommand;
-            //_recipeDetail!.Ingredients.Add(new RecipeDetailResponse.Ingredient(command!.Name, command!.Amount));
+            _recipeDetail!.Ingredients.Add(new Ingredient(
+                command.Name,
+                command.IngredientType,
+                command.ValueBase));
+
+        }
+    }
+
+    private async Task EditRecipeIngredientAsync(int index)
+    {
+        var currentIngredient = _recipeDetail!.Ingredients[index];
+        var parameters = new ModalParameters()
+            .Add(nameof(EditRecipeIngredientModal.RecipeId), RecipeId)
+            .Add(nameof(EditRecipeIngredientModal.Index), index)
+            .Add(nameof(EditRecipeIngredientModal.Name), currentIngredient.Name)
+            .Add(nameof(EditRecipeIngredientModal.Value), currentIngredient.Value);
+
+        var dialog = Modal.Show<EditRecipeIngredientModal>("Edit ingredient", parameters);
+        var result = await dialog.Result;
+
+        if (result.Confirmed)
+        {
+            var command = result.Data as ChangeRecipeIngredientCommand;
+            _recipeDetail!.Ingredients[index].Value = command.Value;
+            _recipeDetail!.Ingredients[index].Name = command.Name;
+        }
+    }
+
+    private async Task RemoveRecipeIngredientAsync(int index)
+    {
+        var confirmationDialog = Modal.Show<DeleteRecipeConfirmationModal>("Remove ingredient");
+        var result = await confirmationDialog.Result;
+
+        if (result.Confirmed)
+        {
+            await _recipeService.RemoveRecipeIngredientAsync(new RemoveIngredientCommand(RecipeId, index));
+            _recipeDetail.Ingredients.RemoveAt(index);
         }
     }
 }

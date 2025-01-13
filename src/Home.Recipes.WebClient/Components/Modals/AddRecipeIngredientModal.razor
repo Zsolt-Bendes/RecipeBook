@@ -16,7 +16,18 @@
                    placeholder="Ingredient name" />
 
         <label class="block text-gray-700 text-sm font-bold mb-2" for="ingredient_amount">
-            Amount
+            @if (_command.IngredientType == IngredientType.Piece)
+            {
+                <span>Amount</span>
+            }
+            @if (_command.IngredientType == IngredientType.Mass)
+            {
+                <span>Weight in gram</span>
+            }
+            @if (_command.IngredientType == IngredientType.Fluid)
+            {
+                <span>Volume in ml</span>
+            }
         </label>
         <InputNumber @bind-Value="@_command.ValueBase"
                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

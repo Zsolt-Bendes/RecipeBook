@@ -1,0 +1,73 @@
+﻿@using Blazored.FluentValidation
+@using Home.Recipes.WebClient.Components.Buttons
+@using Home.Recipes.WebClient.Services.Recipes
+@using Home.Recipes.WebClient.Services.Recipes.Models
+
+<EditForm Model="_command" OnValidSubmit="SubmitForm" FormName="update_recipe_ingredient">
+    <FluentValidationValidator />
+
+    <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+            Ingredient name
+        </label>
+        <InputText @bind-Value="@_command.Name"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                   id="name"
+                   placeholder="Please write down the step that needs to be done" />
+
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="ingredient_amount">
+            Amount
+        </label>
+        <InputNumber @bind-Value="@_command.Value"
+                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                     id="ingredient_name"
+                     placeholder="Ingredient name" />
+
+        <div class="bg-gray-50 flex mt-2 flex-end flex-row-reverse">
+            <PrimaryButton disabled="@(_isLoading)" type="submit">Update</PrimaryButton>
+            <SecondaryButton disabled="@(_isLoading)" Class="mx-1" @onclick="Cancel">Cancel</SecondaryButton>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private readonly RecipeService _recipeService;
+    private bool _isLoading = false;
+
+    private ChangeRecipeIngredientCommand _command;
+
+    [Parameter]
+    public Guid RecipeId { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public string Name { get; set; } = null!;
+
+    [Parameter]
+    public double Value { get; set; }
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    public EditRecipeIngredientModal(RecipeService recipeService)
+    {
+        _recipeService = recipeService;
+    }
+
+    protected override void OnInitialized()
+    {
+        _command = new(RecipeId, Index, Name, Value);
+        base.OnInitialized();
+    }
+
+    private async Task SubmitForm()
+    {
+        _isLoading = true;
+        await _recipeService.ChangeIngredientAsync(_command);
+        await BlazoredModal.CloseAsync(ModalResult.Ok(_command));
+    }
+
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

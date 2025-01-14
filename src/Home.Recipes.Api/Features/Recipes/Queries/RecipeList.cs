@@ -27,7 +27,7 @@ public static class RecipeListEndpoint
             query = query.Where(_ => _.Name.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase)) as IMartenQueryable<Recipe>;
         }
 
-        var result = await query
+        var result = await query!
             .Select(_ => new RecipeListItem(
                 _.Id,
                 _.Name.Name,

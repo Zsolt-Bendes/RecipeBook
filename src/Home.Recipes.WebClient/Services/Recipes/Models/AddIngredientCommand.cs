@@ -11,7 +11,7 @@ public sealed class AddIngredientCommand
 
     public IngredientType IngredientType { get; set; }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     public double ValueBase { get; set; }
 

@@ -34,7 +34,7 @@
     private readonly RecipeService _recipeService;
     private bool _isLoading = false;
 
-    private ChangeRecipeIngredientCommand _command;
+    private ChangeRecipeIngredientCommand _command = null!;
 
     [Parameter]
     public Guid RecipeId { get; set; }

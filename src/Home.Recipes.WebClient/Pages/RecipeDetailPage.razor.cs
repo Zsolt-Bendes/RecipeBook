@@ -102,7 +102,7 @@ public partial class RecipeDetailPage
         {
             var command = result.Data as AddIngredientCommand;
             _recipeDetail!.Ingredients.Add(new Ingredient(
-                command.Name,
+                command!.Name,
                 command.IngredientType,
                 command.ValueBase));
 
@@ -124,7 +124,7 @@ public partial class RecipeDetailPage
         if (result.Confirmed)
         {
             var command = result.Data as ChangeRecipeIngredientCommand;
-            _recipeDetail!.Ingredients[index].Value = command.Value;
+            _recipeDetail!.Ingredients[index].Value = command!.Value;
             _recipeDetail!.Ingredients[index].Name = command.Name;
         }
     }
@@ -137,7 +137,7 @@ public partial class RecipeDetailPage
         if (result.Confirmed)
         {
             await _recipeService.RemoveRecipeIngredientAsync(new RemoveIngredientCommand(RecipeId, index));
-            _recipeDetail.Ingredients.RemoveAt(index);
+            _recipeDetail!.Ingredients.RemoveAt(index);
         }
     }
 }

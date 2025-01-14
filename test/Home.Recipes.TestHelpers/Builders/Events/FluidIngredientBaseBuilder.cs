@@ -6,7 +6,6 @@ namespace Home.Recipes.TestHelpers.Builders.Events;
 public sealed class FluidIngredientBaseBuilder
 {
     private string _ingredientName = new("Tomato");
-    private MassUnit _massUnit = MassUnit.Gram;
     private double _value = 100;
     private VolumeUnit _fluidUnit = VolumeUnit.Milliliter;
 

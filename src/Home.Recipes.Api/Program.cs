@@ -1,4 +1,5 @@
 using Home.Recipes.Api.Infrastructure;
+using Microsoft.Extensions.FileProviders;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Http.FluentValidation;
@@ -31,6 +32,11 @@ var app = builder.Build();
 
 app.UseCors(corsPolicyName);
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles")),
+    RequestPath = "/StaticFiles"
+});
 app.MapWolverineEndpoints(opts => { opts.UseFluentValidationProblemDetailMiddleware(); });
 
 app.Run();

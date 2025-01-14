@@ -15,13 +15,15 @@ public sealed record Recipe(
     List<IngredientBase> Ingredients,
     List<RecipeStep> Steps)
 {
+    private const string DefaultImagePath = "StaticFiles/default_cooking.jpg";
+
     public static Recipe Create(RecipeCreated recipeCreated) => new Recipe(
             recipeCreated.RecipeId,
             new RecipeName(recipeCreated.Name),
             new RecipeDescription(recipeCreated.Description),
             new RecipeTime(recipeCreated.PreparationTime),
             new RecipeTime(recipeCreated.CookingTime),
-            string.Empty,
+            DefaultImagePath,
             recipeCreated.Ingredients,
             recipeCreated.Steps);
 

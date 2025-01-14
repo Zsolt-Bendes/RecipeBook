@@ -29,5 +29,11 @@
 <ItemGroup>
   <Folder Include="Internal\" />
 </ItemGroup>
+	
+<ItemGroup>
+  <None Update="StaticFiles\default_cooking.jpg">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
 
 </Project>

@@ -10,7 +10,7 @@
         <input class="outline-none w-full"
                type="text"
                placeholder="search for recipes here"
-               @onchange="@(async _ => await SearchRecipesAsync(_.Value.ToString()))" />
+               @onchange="@(async _ => await SearchRecipesAsync(_.Value!.ToString()))" />
     </div>
 
     <SecondaryButton @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">

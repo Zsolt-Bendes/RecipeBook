@@ -13,7 +13,6 @@ public partial class RecipeDetailPage
     private readonly NavigationManager _navigationManager;
 
     private RecipeDetailResponse? _recipeDetail;
-    private bool _editMode;
 
     public RecipeDetailPage(RecipeService recipeService, NavigationManager navigationManager)
     {

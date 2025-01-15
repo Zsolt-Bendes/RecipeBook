@@ -9,13 +9,16 @@ public partial class Home
 {
     private readonly RecipeService _recipeService;
     private readonly NavigationManager _navigationManager;
+    private readonly string _serverUrl;
 
     private RecipeListQueryResponse? _recipeList;
 
-    public Home(RecipeService recipeService, NavigationManager navigationManager)
+
+    public Home(RecipeService recipeService, NavigationManager navigationManager, IConfiguration configuration)
     {
         _recipeService = recipeService;
         _navigationManager = navigationManager;
+        _serverUrl = configuration.GetConnectionString("WebApi")!;
     }
 
     [CascadingParameter]

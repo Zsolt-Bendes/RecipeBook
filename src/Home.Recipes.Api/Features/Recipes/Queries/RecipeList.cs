@@ -8,6 +8,7 @@ public sealed record RecipeListItem(
     Guid RecipeId,
     string Name,
     string Description,
+    string ImagePath,
     TimeSpan PreparationTime,
     TimeSpan CookingTime);
 
@@ -32,6 +33,7 @@ public static class RecipeListEndpoint
                 _.Id,
                 _.Name.Name,
                 _.Description.Description,
+                _.ImagePath,
                 _.PreparationTime.Time,
                 _.CookingTime.Time))
             .ToListAsync(cancellationToken);

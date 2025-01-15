@@ -4,5 +4,6 @@ public sealed record RecipeListItem(
     Guid RecipeId,
     string Name,
     string Description,
+    string ImagePath,
     TimeSpan PreparationTime,
     TimeSpan CookingTime);

@@ -12,10 +12,10 @@
     <PackageReference Include="Marten" Version="7.36.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
-    <PackageReference Include="WolverineFx" Version="3.6.3" />
-    <PackageReference Include="WolverineFx.Http.FluentValidation" Version="3.6.3" />
-    <PackageReference Include="WolverineFx.Http.Marten" Version="3.6.3" />
-    <PackageReference Include="WolverineFx.Marten" Version="3.6.3" />
+    <PackageReference Include="WolverineFx" Version="3.6.4" />
+    <PackageReference Include="WolverineFx.Http.FluentValidation" Version="3.6.4" />
+    <PackageReference Include="WolverineFx.Http.Marten" Version="3.6.4" />
+    <PackageReference Include="WolverineFx.Marten" Version="3.6.4" />
   </ItemGroup>
 
   <ItemGroup>

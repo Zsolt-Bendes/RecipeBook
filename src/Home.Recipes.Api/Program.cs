@@ -32,11 +32,17 @@ var app = builder.Build();
 
 app.UseCors(corsPolicyName);
 
+var cacheMaxAgeOneWeek = (60 * 60 * 24 * 7).ToString();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(builder.Environment.ContentRootPath, "StaticFiles")),
-    RequestPath = "/StaticFiles"
+    RequestPath = "/StaticFiles",
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cacheMaxAgeOneWeek}");
+    }
 });
-app.MapWolverineEndpoints(opts => { opts.UseFluentValidationProblemDetailMiddleware(); });
+
+app.MapWolverineEndpoints(opts => opts.UseFluentValidationProblemDetailMiddleware());
 
 app.Run();

@@ -28,7 +28,7 @@ else
         @foreach (var recipe in _recipeList.Recipes)
         {
             <div class="max-w-sm rounded overflow-hidden shadow-lg" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
-                <img class="w-full" src="@($"{_serverUrl}/{recipe.ImagePath}")">
+                <img class="w-full" src="@($"{_serverUrl}/StaticFiles/thumb_{recipe.ImagePath}")">
                 <div class="px-6 py-4">
                     <div class="font-bold text-xl mb-2">
                         @if (recipe.Name.Length > 16)

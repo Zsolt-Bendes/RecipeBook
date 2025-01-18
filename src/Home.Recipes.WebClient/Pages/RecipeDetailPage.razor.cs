@@ -11,13 +11,15 @@ public partial class RecipeDetailPage
 {
     private readonly RecipeService _recipeService;
     private readonly NavigationManager _navigationManager;
+    private readonly string _serverUrl;
 
     private RecipeDetailResponse? _recipeDetail;
 
-    public RecipeDetailPage(RecipeService recipeService, NavigationManager navigationManager)
+    public RecipeDetailPage(RecipeService recipeService, NavigationManager navigationManager, IConfiguration configuration)
     {
         _recipeService = recipeService;
         _navigationManager = navigationManager;
+        _serverUrl = configuration.GetConnectionString("WebApi")!;
     }
 
     [Parameter]

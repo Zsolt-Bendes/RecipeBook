@@ -7,4 +7,7 @@ public static class RecipeConstants
     public const int MaxStepLength = 400;
 
     public const int MaxIngredientNameLength = 80;
+
+    public const string StaticFilesPath = "StaticFiles/";
+    public const string DefaultImagePath = StaticFilesPath + "default_cooking.jpg";
 }

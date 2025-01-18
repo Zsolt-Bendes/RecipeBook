@@ -1,4 +1,5 @@
-﻿using UnitsNet.Units;
+﻿using Home.Recipes.Api.Features.Recipes.Common;
+using UnitsNet.Units;
 
 namespace Home.Recipes.Api.Features.Recipes.Commands;
 
@@ -19,13 +20,6 @@ public sealed record AddIngredientCommand(
         }
     }
 };
-
-public enum IngredientType
-{
-    Piece,
-    Fluid,
-    Mass,
-}
 
 public static class AddIngredientEndpoint
 {

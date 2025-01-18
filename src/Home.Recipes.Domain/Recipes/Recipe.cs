@@ -15,15 +15,13 @@ public sealed record Recipe(
     List<IngredientBase> Ingredients,
     List<RecipeStep> Steps)
 {
-    private const string DefaultImagePath = "StaticFiles/default_cooking.jpg";
-
     public static Recipe Create(RecipeCreated recipeCreated) => new Recipe(
             recipeCreated.RecipeId,
             new RecipeName(recipeCreated.Name),
             new RecipeDescription(recipeCreated.Description),
             new RecipeTime(recipeCreated.PreparationTime),
             new RecipeTime(recipeCreated.CookingTime),
-            DefaultImagePath,
+            RecipeConstants.DefaultImagePath,
             recipeCreated.Ingredients,
             recipeCreated.Steps);
 
@@ -140,6 +138,9 @@ public sealed record Recipe(
                 pieceIngredientChanged.Value);
         }
     }
+
+    public static Recipe Apply(RecipeImageAdded recipeImage, Recipe recipe) =>
+        recipe with { ImagePath = $"{recipe.Id}.jpeg" };
 
     public static bool ShouldDelete(RecipeDeleted recipeDeleted, Recipe recipe) => true;
 }

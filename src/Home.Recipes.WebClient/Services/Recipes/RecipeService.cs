@@ -132,4 +132,20 @@ public sealed class RecipeService
         var response = await _httpClient.PutAsJsonAsync($"/recipes/changeNameAndDescription", command, cancellationToken);
         response.EnsureSuccessStatusCode();
     }
+
+    public async Task UploadImageAsync(Guid recipeId, Stream fileStream, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var formData = new MultipartFormDataContent();
+            formData.Add(new StreamContent(fileStream), "Image", "image.jpg");
+
+            var response = await _httpClient.PostAsync($"/recipes/{recipeId}/changeImage", formData, cancellationToken);
+            response.EnsureSuccessStatusCode();
+        }
+        finally
+        {
+            fileStream.Dispose();
+        }
+    }
 }

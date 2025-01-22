@@ -1,0 +1,28 @@
+﻿@using Home.Recipes.WebClient.Services.Recipes
+
+<InputFile OnChange="LoadFiles" />
+
+@code {
+    private readonly RecipeService _recipeService;
+    private bool _isLoading = false;
+
+    public UploadRecipeImageModal(RecipeService recipeService)
+    {
+        _recipeService = recipeService;
+    }
+
+    [Parameter]
+    public Guid RecipeId { get; set; }
+
+    [CascadingParameter]
+    public BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        _isLoading = true;
+        await _recipeService.UploadImageAsync(RecipeId, e.File.OpenReadStream(), CancellationToken.None);
+        await BlazoredModal.CloseAsync();
+    }
+
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

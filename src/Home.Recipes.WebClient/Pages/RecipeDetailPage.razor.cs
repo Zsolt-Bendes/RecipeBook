@@ -141,4 +141,18 @@ public partial class RecipeDetailPage
             _recipeDetail!.Ingredients.RemoveAt(index);
         }
     }
+
+    private async Task ChangeImageAsync()
+    {
+        var parameters = new ModalParameters()
+            .Add(nameof(UploadRecipeImageModal.RecipeId), RecipeId);
+
+        var dialog = Modal.Show<UploadRecipeImageModal>("Change image", parameters);
+        var result = await dialog.Result;
+
+        if (result.Confirmed)
+        {
+            //TODO: cover image
+        }
+    }
 }

@@ -106,7 +106,6 @@ public partial class RecipeDetailPage
                 command!.Name,
                 command.IngredientType,
                 command.ValueBase));
-
         }
     }
 

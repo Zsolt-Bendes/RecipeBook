@@ -137,7 +137,7 @@ public sealed class RecipeService
     {
         try
         {
-            var formData = new MultipartFormDataContent();
+            using var formData = new MultipartFormDataContent();
             formData.Add(new StreamContent(fileStream), "Image", "image.jpg");
 
             var response = await _httpClient.PostAsync($"/recipes/{recipeId}/changeImage", formData, cancellationToken);

@@ -1,10 +1,17 @@
 ﻿@using Home.Recipes.WebClient.Services.Recipes
+@using Home.Recipes.WebClient.Components.Buttons;
+@using System.IO
+@using System.Buffers
+@using Tewr.Blazor.FileReader
 
-<InputFile OnChange="LoadFiles" />
+@inject IFileReaderService fileReaderService;
+
+<input type="file" @ref=inputTypeFileElement />
+<button @onclick=ReadFile>Read file</button>
 
 @code {
     private readonly RecipeService _recipeService;
-    private bool _isLoading = false;
+    private ElementReference inputTypeFileElement;
 
     public UploadRecipeImageModal(RecipeService recipeService)
     {
@@ -17,10 +24,16 @@
     [CascadingParameter]
     public BlazoredModalInstance BlazoredModal { get; set; } = default!;
 
-    private async Task LoadFiles(InputFileChangeEventArgs e)
+    public async Task ReadFile()
     {
-        _isLoading = true;
-        await _recipeService.UploadImageAsync(RecipeId, e.File.OpenReadStream(), CancellationToken.None);
+        foreach (var file in await fileReaderService.CreateReference(inputTypeFileElement).EnumerateFilesAsync())
+        {
+            using (MemoryStream memoryStream = await file.CreateMemoryStreamAsync(4096))
+            {
+                await _recipeService.UploadImageAsync(RecipeId, memoryStream);
+            }
+        }
+
         await BlazoredModal.CloseAsync();
     }
 

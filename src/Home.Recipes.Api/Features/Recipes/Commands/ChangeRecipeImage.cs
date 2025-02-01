@@ -53,7 +53,15 @@ public sealed class ChangeRecipeImageEndpoint
         var imagePath = RecipeConstants.StaticFilesPath + "thumb_" + recipeId + ".jpeg";
         using Image image = await Image.LoadAsync(file.OpenReadStream(), cancellationToken);
 
-        image.Mutate(x => x.Resize(288, 162));
+        int desiredWidth = 300;
+        int desiredHeight = 0;
+
+        image.Mutate(x => x.Resize(new ResizeOptions
+        {
+            Size = new Size(desiredWidth, desiredHeight),
+            Mode = ResizeMode.Max
+        }));
+
         await image.SaveAsJpegAsync(imagePath, cancellationToken);
     }
 
@@ -65,7 +73,15 @@ public sealed class ChangeRecipeImageEndpoint
         var imagePath = RecipeConstants.StaticFilesPath + recipeId + ".jpeg";
         using Image image = await Image.LoadAsync(file.OpenReadStream(), cancellationToken);
 
-        image.Mutate(x => x.Resize(288 * 5, 162 * 5));
+        int desiredWidth = 900;
+        int desiredHeight = 0;
+
+        image.Mutate(x => x.Resize(new ResizeOptions
+        {
+            Size = new Size(desiredWidth, desiredHeight),
+            Mode = ResizeMode.Max
+        }));
+
         await image.SaveAsJpegAsync(imagePath, cancellationToken);
     }
 }

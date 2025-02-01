@@ -33,7 +33,7 @@ public static class RecipeListEndpoint
                 _.Id,
                 _.Name.Name,
                 _.Description.Description,
-                _.ImagePath,
+                _.ThumbnailPath,
                 _.PreparationTime.Time,
                 _.CookingTime.Time))
             .ToListAsync(cancellationToken);

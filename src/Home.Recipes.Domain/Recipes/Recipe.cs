@@ -12,6 +12,7 @@ public sealed record Recipe(
     RecipeTime PreparationTime,
     RecipeTime CookingTime,
     string ImagePath,
+    string ThumbnailPath,
     List<IngredientBase> Ingredients,
     List<RecipeStep> Steps)
 {
@@ -22,6 +23,7 @@ public sealed record Recipe(
             new RecipeTime(recipeCreated.PreparationTime),
             new RecipeTime(recipeCreated.CookingTime),
             RecipeConstants.DefaultImagePath,
+            RecipeConstants.DefaultThumbnailPath,
             recipeCreated.Ingredients,
             recipeCreated.Steps);
 
@@ -140,7 +142,11 @@ public sealed record Recipe(
     }
 
     public static Recipe Apply(RecipeImageAdded recipeImage, Recipe recipe) =>
-        recipe with { ImagePath = $"{recipe.Id}.jpeg" };
+        recipe with
+        {
+            ImagePath = $"StaticFiles/{recipe.Id}.jpeg",
+            ThumbnailPath = $"StaticFiles/thumb_{recipe.Id}.jpeg",
+        };
 
     public static bool ShouldDelete(RecipeDeleted recipeDeleted, Recipe recipe) => true;
 }

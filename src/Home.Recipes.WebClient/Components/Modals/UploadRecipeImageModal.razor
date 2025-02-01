@@ -6,11 +6,15 @@
 
 @inject IFileReaderService fileReaderService;
 
-<input type="file" @ref=inputTypeFileElement />
-<button @onclick=ReadFile>Read file</button>
+<input type="file"
+       class="mb-2 border bg-transparent rounded p-1"
+    @ref=inputTypeFileElement />
+<SecondaryButton disabled="@(!_fileSelected)" @onclick=ReadFile>Upload and change</SecondaryButton>
 
 @code {
     private readonly RecipeService _recipeService;
+
+    private bool _fileSelected = false; 
     private ElementReference inputTypeFileElement;
 
     public UploadRecipeImageModal(RecipeService recipeService)

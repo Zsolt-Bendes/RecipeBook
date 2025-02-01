@@ -11,6 +11,7 @@
         }
     </div>
     <div>
+        <SecondaryButton @onclick="ChangeImageAsync">Change image</SecondaryButton>
         <DeleteButton @onclick="DeleteRecipeAsync">Delete</DeleteButton>
     </div>
 </div>
@@ -24,15 +25,13 @@
 else
 {
     <PageTitle>@_recipeDetail.Name</PageTitle>
-    <SecondaryButton @onclick="ChangeImageAsync">Change image</SecondaryButton>
-
+   
 
     <div class="flex">
-        <div class="basis-1/2">
-            <img class="w-full" src=" @($"{_serverUrl}/StaticFiles/{_recipeDetail.ImagePath}")">
-        </div>
+        <img class="size-64" src=" @($"{_serverUrl}/{_recipeDetail.ImagePath}")">
 
         <div class="flex flex-col">
+
             <div class="ml-3">
                 <h3 class="text-xl font-bold mb-2">Description</h3>
                 <p>@_recipeDetail.Description</p>
@@ -53,69 +52,73 @@ else
         </div>
     </div>
 
-    <div class="flex flex-row mt-2">
-        <section class="basis-1/2 border rounded p-2">
-            <div class="flex flex-row mb-2">
-                <h3 class="text-xl font-bold">Ingredients</h3>
-                <IconButton Class="ml-2" @onclick="AddRecipeIngredientAsync" />
-            </div>
+    <section class="border rounded p-2 mt-2">
+        <div class="flex flex-row mb-2">
+            <h3 class="text-xl font-bold">Ingredients</h3>
+            <IconButton Class="ml-2" @onclick="AddRecipeIngredientAsync" />
+        </div>
 
-            <ol>
-                @foreach (var item in _recipeDetail.Ingredients)
-                {
-                    <li class="w-full mb-2">
-                        <div class="border border-sky-500 rounded bg-gray-200 flex flex-row justify-between p-4">
-                            <div class="basis-1/2">
-                                <div class="flex flex-row">
-                                    <span>@item.Name</span>
-                                    <span class="ml-2">@item.Value</span>
-                    
-                                    @if (item.Type == IngredientType.Piece)
-                                    {
-                                        <span class="ml-2">pieces</span>
-                                    }
-                                    @if (item.Type == IngredientType.Mass)
-                                    {
-                                        <span class="ml-2">gram</span>
-                                    }
-                                    @if (item.Type == IngredientType.Fluid)
-                                    {
-                                        <span class ="ml-2">ml</span>
-                                    }
-                                </div>
-                            </div>
-                            <div>
-                                <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" />
-                                <IconButton ButtonType=ButtonType.Delete @onclick="@(async () => await RemoveRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" Class="ml-2" />
+        <ol>
+            @foreach (var item in _recipeDetail.Ingredients)
+            {
+                <li class="w-full mb-2">
+                    <div class="border border-sky-500 rounded bg-gray-200 flex flex-row justify-between p-4">
+                        <div class="basis-1/2">
+                            <div class="flex flex-row">
+
+                                <input type="checkbox" class="mr-1 mt-1 size-5">
+
+                                <span>@item.Name</span>
+                                <span class="ml-2">@item.Value</span>
+
+                                @if (item.Type == IngredientType.Piece)
+                                {
+                                    <span class="ml-2">pieces</span>
+                                }
+                                @if (item.Type == IngredientType.Mass)
+                                {
+                                    <span class="ml-2">gram</span>
+                                }
+                                @if (item.Type == IngredientType.Fluid)
+                                {
+                                    <span class="ml-2">ml</span>
+                                }
                             </div>
                         </div>
-                    </li>
-                }
-            </ol>
-        </section>
-
-        <section class="basis-1/2 border rounded p-2 mx-2">
-            <div class="flex flex-row mb-2">
-                <h3 class="text-xl font-bold">Steps</h3>
-                <IconButton Class="ml-2" @onclick="AddRecipeStepAsync" />
-            </div>
-
-            <ol>
-                @foreach (var item in _recipeDetail.Steps)
-                {
-                    <li class="w-full mb-2">
-                        <div class="border border-sky-500 rounded bg-gray-200 flex flex-row justify-between p-4">
-                            <div class="basis-1/2">
-                                @item
-                            </div>
-                            <div>
-                                <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeAsync(_recipeDetail.Steps.IndexOf(item)))" />
-                                <IconButton ButtonType=ButtonType.Delete Class="ml-2" @onclick="@(async () => await  RemoveRecipeStepAsync(_recipeDetail.Steps.IndexOf(item)))" />
-                            </div>
+                        <div>
+                            <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" />
+                            <IconButton ButtonType=ButtonType.Delete @onclick="@(async () => await RemoveRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" Class="ml-2" />
                         </div>
-                    </li>
-                }
-            </ol>
-        </section>
-    </div>
+                    </div>
+                </li>
+            }
+        </ol>
+    </section>
+
+    <section class="border rounded p-2 mt-2">
+        <div class="flex flex-row mb-2">
+            <h3 class="text-xl font-bold">Steps</h3>
+            <IconButton Class="ml-2" @onclick="AddRecipeStepAsync" />
+        </div>
+
+        <ol>
+            @foreach (var item in _recipeDetail.Steps)
+            {
+                <li class="w-full mb-2">
+                    <div class="border border-sky-500 rounded bg-gray-200 flex flex-row justify-between p-4">
+                        <div class="basis-1/2">
+
+                            <input type="checkbox" class="mr-1 mt-1 size-5">
+
+                            @item
+                        </div>
+                        <div>
+                            <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                            <IconButton ButtonType=ButtonType.Delete Class="ml-2" @onclick="@(async () => await  RemoveRecipeStepAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                        </div>
+                    </div>
+                </li>
+            }
+        </ol>
+    </section>
 }

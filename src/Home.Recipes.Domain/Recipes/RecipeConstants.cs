@@ -10,4 +10,5 @@ public static class RecipeConstants
 
     public const string StaticFilesPath = "StaticFiles/";
     public const string DefaultImagePath = StaticFilesPath + "default_cooking.jpg";
+    public const string DefaultThumbnailPath = StaticFilesPath + "thumb_default_cooking.jpg";
 }

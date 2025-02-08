@@ -24,7 +24,7 @@ public sealed class When_marking_a_recipe_as_cooked
         // Act
         var response = await _fixture.Host.Scenario(_ =>
         {
-            _.Get.Url(GetRecipeHistory.Endpoint.Replace("{recipeId}", recipeId.ToString()));
+            _.Get.Url(GetRecipeHistory.Endpoint + "?searchText=123");
             _.StatusCodeShouldBe(HttpStatusCode.OK);
         });
 
@@ -61,7 +61,7 @@ public sealed class When_marking_a_recipe_as_cooked
         // Act
         var result = await _fixture.Host.Scenario(_ =>
         {
-            _.Get.Url(GetRecipeHistory.Endpoint.Replace("{recipeId}", existingRecipe.RecipeId.ToString()));
+            _.Get.Url(GetRecipeHistory.Endpoint);
             _.StatusCodeShouldBe(HttpStatusCode.OK);
         });
 

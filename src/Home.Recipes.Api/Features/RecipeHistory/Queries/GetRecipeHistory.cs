@@ -10,23 +10,38 @@ public sealed record RecipeHistoryListItem(
 
 public static class GetRecipeHistory
 {
-    internal const string Endpoint = "/recipes/{recipeId}/history";
+    internal const string Endpoint = "/recipes/history";
 
     [WolverineGet(Endpoint)]
     public static async Task<IResult> Get(
-        Guid recipeId,
+        string? searchText,
         IQuerySession session,
         CancellationToken cancellationToken)
     {
-        var result = await session.Query<Domain.RecipeHistory.RecipeHistory>()
-            .Where(_ => _.RecipeId == recipeId)
-            .OrderByDescending(_ => _.CreatedAt)
-            .Select(_ => new RecipeHistoryListItem(
-                _.Id,
-                _.RecipeId,
-                _.RecipeName,
-                _.CreatedAt))
-            .ToListAsync(cancellationToken);
+        IReadOnlyList<RecipeHistoryListItem>? result = null;
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            result = await session.Query<Domain.RecipeHistory.RecipeHistory>()
+                .OrderByDescending(_ => _.CreatedAt)
+                .Select(_ => new RecipeHistoryListItem(
+                    _.Id,
+                    _.RecipeId,
+                    _.RecipeName,
+                    _.CreatedAt))
+                .ToListAsync(cancellationToken);
+        }
+        else
+        {
+            result = await session.Query<Domain.RecipeHistory.RecipeHistory>()
+                .Where(_ => _.RecipeName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(_ => _.CreatedAt)
+                .Select(_ => new RecipeHistoryListItem(
+                    _.Id,
+                    _.RecipeId,
+                    _.RecipeName,
+                    _.CreatedAt))
+                .ToListAsync(cancellationToken);
+        }
 
         return Results.Ok(new RecipeHistoryQueryResponse(result));
     }

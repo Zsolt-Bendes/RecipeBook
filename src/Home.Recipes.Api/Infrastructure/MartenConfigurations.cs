@@ -15,7 +15,9 @@ internal sealed class MartenConfigurations : StoreOptions
         });
 
         Schema.For<Domain.Recipes.Recipe>();
+        Schema.For<Domain.RecipeHistory.RecipeHistory>();
 
         Projections.Snapshot<Domain.Recipes.Recipe>(SnapshotLifecycle.Inline);
+        Projections.Snapshot<Domain.RecipeHistory.RecipeHistory>(SnapshotLifecycle.Inline);
     }
 }

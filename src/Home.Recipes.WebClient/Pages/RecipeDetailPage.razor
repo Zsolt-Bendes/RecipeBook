@@ -86,8 +86,8 @@ else
                             </div>
                         </div>
                         <div>
-                            <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" />
-                            <IconButton ButtonType=ButtonType.Delete @onclick="@(async () => await RemoveRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" Class="ml-2" />
+                            <IconButton @onclick="@(async () => await EditRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" />
+                            <IconButton @onclick="@(async () => await RemoveRecipeIngredientAsync(_recipeDetail.Ingredients.IndexOf(item)))" Class="ml-2" />
                         </div>
                     </div>
                 </li>
@@ -113,8 +113,8 @@ else
                             @item
                         </div>
                         <div>
-                            <IconButton ButtonType=ButtonType.Edit @onclick="@(async () => await EditRecipeAsync(_recipeDetail.Steps.IndexOf(item)))" />
-                            <IconButton ButtonType=ButtonType.Delete Class="ml-2" @onclick="@(async () => await  RemoveRecipeStepAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                            <IconButton @onclick="@(async () => await EditRecipeAsync(_recipeDetail.Steps.IndexOf(item)))" />
+                            <IconButton Class="ml-2" @onclick="@(async () => await  RemoveRecipeStepAsync(_recipeDetail.Steps.IndexOf(item)))" />
                         </div>
                     </div>
                 </li>

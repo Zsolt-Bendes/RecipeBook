@@ -1,66 +1,63 @@
 ﻿@page "/"
 @using global::Home.Recipes.WebClient.Components.Modals
-@using global::Home.Recipes.WebClient.Components.Buttons
 
 <PageTitle>Recipes</PageTitle>
 
-<div class="flex">
-    <div class="flex border-4 p-2 space-x-4 rounded-lg w-full mr-6">
-        <img src="images/search.png" />
-        <input class="outline-none w-full"
-               type="text"
-               placeholder="search for recipes here"
-               @onchange="@(async _ => await SearchRecipesAsync(_.Value!.ToString()))" />
-    </div>
+<section class="flex my-2">
+    <FluentSearch @bind-Value="_searchText"
+                  @bind-Value:after="SearchRecipesAsync"
+                  Class="w-full mr-2"
+                  Placeholder="Search"
+                  AutoComplete="off"
+                  Immediate="true"
+                  ImmediateDelay="200" />
 
-    <SecondaryButton @onclick="@(() => Modal.Show<CreateRecipeModal>("Add new recipe"))">
-        Create
-    </SecondaryButton>
-</div>
+    <FluentButton @onclick="OpenCreateDialog"
+                  Appearance="Appearance.Accent">
+        ADD
+    </FluentButton>
+</section>
 
 @if (_recipeList is null)
 {
-    <p>Loading</p>
+    <FluentProgressRing />
 }
 else
 {
-    <div class="grid gap-4 grid-cols-5 mt-4">
+    <FluentGrid xs="12" sm="6" class="mb-1">
         @foreach (var recipe in _recipeList.Recipes)
         {
-            <div class="max-w-sm rounded overflow-hidden shadow-lg" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
-                <img class="w-full" src="@($"{_serverUrl}/{recipe.ImagePath}")">
-                <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">
-                        @if (recipe.Name.Length > 16)
-                        {
-                            @recipe.Name[0..16]
-                            <span>...</span>
-                        }
-                        else
-                        {
-                            @recipe.Name
-                        }
+            <FluentGridItem>
+                <FluentCard Width="340px" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
+                    <img class="w-full" src="@($"{_serverUrl}/{recipe.ImagePath}")">
+                    <div class="px-6 py-4">
+                        <div class="font-bold text-xl mb-2">
+                            @if (recipe.Name.Length > 16)
+                            {
+                                @recipe.Name[0..16]
+                                <span>...</span>
+                            }
+                            else
+                            {
+                                @recipe.Name
+                            }
+                        </div>
+                        <p class="text-gray-700 text-base">
+                            @recipe.Description
+                        </p>
                     </div>
-                    <p class="text-gray-700 text-base">
-                        @recipe.Description
-                    </p>
-                </div>
-                <div class="flex flex-row px-6 py-4 text-xs cursor-default">
-                    <div class="flex flex-row px-1 py-1 mr-1" title="preparation time">
-                        <img class="w-5 h-5" src="/images/preparation-time.png" />
-                        <span title="preparation time" class="ml-0.5 mt-0.5 cursor-default">@recipe.PreparationTime.ToString(@"hh\:mm")</span>
+                    <div class="flex flex-row px-6 py-4 text-xs cursor-default">
+                        <div class="flex flex-row px-1 py-1 mr-1" title="preparation time">
+                            <img class="w-5 h-5" src="/images/preparation-time.png" />
+                            <span title="preparation time" class="ml-0.5 mt-0.5 cursor-default">@recipe.PreparationTime.ToString(@"hh\:mm")</span>
+                        </div>
+                        <div class="flex flex-row px-1 py-1 cursor-default" title="cooking time">
+                            <img class="w-5 h-5" src="/images/cooking-time.png" />
+                            <span title="cooking time" class="ml-0.5 mt-0.5 cursor-default">@recipe.CookingTime.ToString(@"hh\:mm")</span>
+                        </div>
                     </div>
-                    <div class="flex flex-row px-1 py-1 cursor-default" title="cooking time">
-                        <img class="w-5 h-5" src="/images/cooking-time.png" />
-                        <span title="cooking time" class="ml-0.5 mt-0.5 cursor-default">@recipe.CookingTime.ToString(@"hh\:mm")</span>
-                    </div>
-                </div>
-                @*   <div class="px-6 pt-4 pb-2">
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                </div> *@
-            </div>
+                </FluentCard>
+            </FluentGridItem>
         }
-    </div>
+    </FluentGrid>
 }

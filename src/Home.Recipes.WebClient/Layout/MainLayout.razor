@@ -1,6 +1,16 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="container mx-auto px-4 pt-4">
-    @Body
-</div>
+<FluentLayout>
+    <FluentHeader>
+        Header text
+    </FluentHeader>
+    <FluentBodyContent Class="px-12">
+        @Body
+    </FluentBodyContent>
+</FluentLayout>
 
+<FluentToastProvider />
+<FluentDialogProvider />
+<FluentTooltipProvider />
+<FluentMessageBarProvider />
+<FluentMenuProvider />

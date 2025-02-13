@@ -28,7 +28,7 @@ else
         @foreach (var recipe in _recipeList.Recipes)
         {
             <FluentGridItem>
-                <FluentCard Width="340px" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
+                <FluentCard Width="310px" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
                     <img class="w-full" src="@($"{_serverUrl}/{recipe.ImagePath}")">
                     <div class="px-6 py-4">
                         <div class="font-bold text-xl mb-2">

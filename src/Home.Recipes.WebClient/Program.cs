@@ -20,7 +20,7 @@ builder.Services.AddHttpClient<RecipeService>(httpClient =>
 
 builder.Services.AddFluentUIComponents();
 
-builder.Services.AddFileReaderService(options => options.UseWasmSharedBuffer = true);
+builder.Services.AddFileReaderService();
 
 builder.Services.AddBlazoredModal();
 

@@ -8,45 +8,23 @@
 <EditForm EditContext="@_editContext" FormName="create_recipe">
     <FluentValidationValidator />
 
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="recipe_name">
-            Name
-        </label>
-        <InputText @bind-Value="@_command.Name"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="recipe_name"
-        placeholder="Recipe name" />
-    </div>
+    <FluentTextField @bind-Value="@_command.Name"
+                     Label="Name"
+                     Placeholder="Recipe name"
+                     Style="width:100%"/>
 
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="recipe_description">
-            Description
-        </label>
-        <InputTextArea @bind-Value="@_command.Description"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="recipe_description"
-        placeholder="Description" />
-    </div>
+    <FluentTextArea @bind-Value="@_command.Description"
+                    Label="Description"
+                    Placeholder="Description" 
+                    Style="width:100%" />
 
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="recipe_preparationTime">
-            Preparation time (in minutes)
-        </label>
+    <FluentNumberField @bind-Value="@_command.PreparationTimeInMinutes"
+                       Label="Preparation time (in minutes)" 
+                       Style="width:100%" />
 
-        <InputNumber @bind-Value="@_command.PreparationTimeInMinutes"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="recipe_preparationTime" />
-    </div>
-
-    <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="recipe_cookingTime">
-            Cooking time
-        </label>
-        <InputNumber @bind-Value="@_command.CookingTimeInMinutes"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="recipe_cookingTime" />
-    </div>
-
+    <FluentNumberField @bind-Value="@_command.CookingTimeInMinutes"
+                       Label="Cooking time"
+                       Style="width:100%" />
 </EditForm>
 
 @* Footer *@

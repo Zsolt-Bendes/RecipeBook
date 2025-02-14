@@ -1,5 +1,6 @@
 using Blazored.Modal;
 using Home.Recipes.WebClient;
+using Home.Recipes.WebClient.Services.RecipeHistory;
 using Home.Recipes.WebClient.Services.Recipes;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -14,6 +15,11 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<RecipeService>(httpClient =>
+{
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetConnectionString("WebApi")!);
+});
+
+builder.Services.AddHttpClient<RecipeHistoryService>(httpClient =>
 {
     httpClient.BaseAddress = new Uri(builder.Configuration.GetConnectionString("WebApi")!);
 });

@@ -1,7 +1,32 @@
 ﻿@page "/recipehistory"
+@using global::Home.Recipes.WebClient.Services.RecipeHistory.Models
 
-<h3>RecipeHistory</h3>
+<FluentStack Class="mr-2 mt-2">
+    <FluentButton OnClick="@(() => _navigationManager.NavigateTo("/"))">
+        <FluentIcon Value="@(new Icons.Regular.Size32.ArrowCircleLeft())" />
+    </FluentButton>
 
-@code {
+    <FluentSearch @bind-Value="_searchText"
+                  @bind-Value:after="SearchRecipesAsync"
+                  Class="w-full mr-2"
+                  Placeholder="Search"
+                  AutoComplete="off"
+                  Immediate="true"
+                  ImmediateDelay="200" />
+</FluentStack>
 
+@if (_recipeHistories is null)
+{
+    <FluentProgressRing />
+}
+else
+{
+    <FluentDataGrid Items="@_recipeHistories.History.AsQueryable()"
+                    TGridItem="RecipeHistoryListItem"
+                    IsLoading="_isLoading"
+                    IsSelectable="false">
+        <PropertyColumn Property="@(p => p.RecipeId)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.RecipeName)" Sortable="true" />
+        <PropertyColumn Property="@(p => p.CreatedAt)" Format="yyyy-MM-dd" Sortable="true" />
+    </FluentDataGrid>
 }

@@ -54,4 +54,14 @@ public partial class Home
             PreventScroll = true,
         });
     }
+
+    private string CutLongName(string name)
+    {
+        if (name.Length > 16)
+        {
+            return name.Substring(0, 16) + "...";
+        }
+
+        return name;
+    }
 }

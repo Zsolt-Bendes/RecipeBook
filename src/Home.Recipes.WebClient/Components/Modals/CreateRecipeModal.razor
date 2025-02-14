@@ -11,15 +11,15 @@
     <FluentTextField @bind-Value="@_command.Name"
                      Label="Name"
                      Placeholder="Recipe name"
-                     Style="width:100%"/>
+                     Style="width:100%" />
 
     <FluentTextArea @bind-Value="@_command.Description"
                     Label="Description"
-                    Placeholder="Description" 
+                    Placeholder="Description"
                     Style="width:100%" />
 
     <FluentNumberField @bind-Value="@_command.PreparationTimeInMinutes"
-                       Label="Preparation time (in minutes)" 
+                       Label="Preparation time (in minutes)"
                        Style="width:100%" />
 
     <FluentNumberField @bind-Value="@_command.CookingTimeInMinutes"
@@ -30,9 +30,10 @@
 @* Footer *@
 <FluentDialogFooter>
     <FluentButton Appearance="Appearance.Accent"
-    Type="Microsoft.FluentUI.AspNetCore.Components.ButtonType.Submit" 
-    FormId="create_recipe"
-    OnClick="@SaveAsync">
+                  Type="Microsoft.FluentUI.AspNetCore.Components.ButtonType.Submit"
+                  FormId="create_recipe"
+                  Loading="@_isLoading"
+                  OnClick="@SaveAsync">
         Save
     </FluentButton>
     <FluentButton Appearance="Appearance.Neutral" OnClick="@CancelAsync">Cancel</FluentButton>

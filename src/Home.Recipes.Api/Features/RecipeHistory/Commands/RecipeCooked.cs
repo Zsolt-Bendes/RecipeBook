@@ -1,7 +1,6 @@
 ﻿using Home.Recipes.Domain.RecipeHistory.Events;
 using Marten.Schema.Identity;
 using Wolverine.Attributes;
-using Wolverine.Http.Marten;
 
 namespace Home.Recipes.Api.Features.RecipeHistory.Commands;
 
@@ -9,9 +8,9 @@ public sealed record RecipeCookedCommand(Guid RecipeId);
 
 public static class RecipeCookedEndpoint
 {
-    internal const string Endpoint = "/recipes/{recipeId}/cooked";
+    internal const string Endpoint = "/recipes/cooked";
 
-    public static async Task<ProblemDetails> LoadAsync(
+    public static async Task<(ProblemDetails, Recipe?)> LoadAsync(
         RecipeCookedCommand command,
         IDocumentSession session,
         CancellationToken cancellationToken)
@@ -20,21 +19,22 @@ public static class RecipeCookedEndpoint
 
         if (recipe is null)
         {
-            return new ProblemDetails
+            return (new ProblemDetails
             {
                 Title = "Recipe not found",
                 Detail = $"Recipe with id {command.RecipeId} not found",
                 Status = StatusCodes.Status404NotFound,
-            };
+            }, null);
         }
 
-        return WolverineContinue.NoProblems;
+        return (WolverineContinue.NoProblems, recipe);
     }
 
     [WolverinePost(Endpoint)]
     [Transactional]
     public static IResult Post(
-        [Aggregate] Recipe recipe,
+        RecipeCookedCommand command,
+        Recipe recipe,
         IDocumentSession session)
     {
         var id = CombGuidIdGeneration.NewGuid();

@@ -1,6 +1,7 @@
 ﻿using Blazored.Modal;
 using Blazored.Modal.Services;
 using Home.Recipes.WebClient.Components.Modals;
+using Home.Recipes.WebClient.Services.RecipeHistory;
 using Home.Recipes.WebClient.Services.Recipes;
 using Home.Recipes.WebClient.Services.Recipes.Models;
 using Microsoft.AspNetCore.Components;
@@ -11,14 +12,21 @@ public partial class RecipeDetailPage
 {
     private readonly RecipeService _recipeService;
     private readonly NavigationManager _navigationManager;
+    private readonly RecipeHistoryService _recipeHistoryService;
     private readonly string _serverUrl;
 
+    private bool _cooked;
     private RecipeDetailResponse? _recipeDetail;
 
-    public RecipeDetailPage(RecipeService recipeService, NavigationManager navigationManager, IConfiguration configuration)
+    public RecipeDetailPage(
+        RecipeService recipeService,
+        NavigationManager navigationManager,
+        RecipeHistoryService recipeHistoryService,
+        IConfiguration configuration)
     {
         _recipeService = recipeService;
         _navigationManager = navigationManager;
+        _recipeHistoryService = recipeHistoryService;
         _serverUrl = configuration.GetConnectionString("WebApi")!;
     }
 
@@ -153,5 +161,11 @@ public partial class RecipeDetailPage
         {
             //TODO: cover image
         }
+    }
+
+    private async Task MarkAsCookedAsync()
+    {
+        await _recipeHistoryService.RecipeCookedAsync(RecipeId);
+        _cooked = true;
     }
 }

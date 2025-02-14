@@ -1,4 +1,5 @@
 ﻿using Home.Recipes.WebClient.Services.RecipeHistory.Models;
+using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Home.Recipes.WebClient.Services.RecipeHistory;
@@ -34,8 +35,8 @@ public sealed class RecipeHistoryService
 
     public async Task RecipeCookedAsync(Guid recipeId, CancellationToken cancellationToken = default)
     {
-        var endpoint = $"/recipes/{recipeId}/cooked";
-        var response = await _httpClient.PostAsync(endpoint, null, cancellationToken);
+        var endpoint = $"/recipes/cooked";
+        var response = await _httpClient.PostAsJsonAsync(endpoint, new RecipeCookedCommand(recipeId), cancellationToken);
         response.EnsureSuccessStatusCode();
     }
 }

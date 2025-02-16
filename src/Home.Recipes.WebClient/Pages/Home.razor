@@ -28,15 +28,19 @@ else
         @foreach (var recipe in _recipeList.Recipes)
         {
             <FluentGridItem>
-                <FluentCard Width="310px" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
+                <FluentCard Width="300px" @onclick="@(_ => NavigateToRecipeDetails(recipe.RecipeId))">
                     <img class="w-full" src="@($"{_serverUrl}/{recipe.ImagePath}")">
                     <div class="px-6 py-4">
-                        <div class="font-bold text-xl mb-2">
+                        <FluentLabel Typo="Typography.Subject"
+                                     Weight="FontWeight.Bold"
+                                     Class="mb-2">
                             @CutLongName(recipe.Name)
-                        </div>
-                        <p class="text-gray-700 text-base">
+                        </FluentLabel>
+                        @recipe.Description
+                        <FluentLabel Typo="Typography.H5"
+                                     Weight="FontWeight.Normal">
                             @recipe.Description
-                        </p>
+                        </FluentLabel>
                     </div>
                     <div class="flex flex-row px-6 py-4 text-xs cursor-default">
                         <div class="flex flex-row px-1 py-1 mr-1" title="preparation time">

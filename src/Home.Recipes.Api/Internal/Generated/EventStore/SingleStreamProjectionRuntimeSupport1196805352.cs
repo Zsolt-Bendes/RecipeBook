@@ -29,11 +29,13 @@ namespace Marten.Generated.EventStore
             {
                 usedEventOnCreate = false;
                 snapshot = CreateDefault(events[0]);
+                if (snapshot != null) _singleStreamProjection.ApplyMetadata(snapshot, events[0]);
             }
 
             foreach (var @event in events.Skip(usedEventOnCreate ? 1 : 0))
             {
                 snapshot = Apply(@event, snapshot, session);
+                if (snapshot != null) _singleStreamProjection.ApplyMetadata(snapshot, @event);
             }
 
             return snapshot;

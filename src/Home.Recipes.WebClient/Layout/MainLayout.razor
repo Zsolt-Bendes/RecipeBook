@@ -1,8 +1,13 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager _navigationManager
 
 <FluentLayout>
     <FluentHeader>
-        Home made recipes
+        <FluentStack>
+            Home made recipes
+            <FluentButton Appearance=Appearance.Stealth OnClick="@(_ => _navigationManager.NavigateTo("/"))">Home</FluentButton>
+            <FluentButton Appearance=Appearance.Stealth OnClick="@(_ => _navigationManager.NavigateTo("/recipehistory"))">History</FluentButton>
+        </FluentStack>
     </FluentHeader>
     <FluentBodyContent Class="px-10">
         @Body

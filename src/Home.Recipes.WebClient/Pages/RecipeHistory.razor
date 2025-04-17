@@ -25,7 +25,6 @@ else
                     TGridItem="RecipeHistoryListItem"
                     IsLoading="_isLoading"
                     IsSelectable="false">
-        <PropertyColumn Property="@(p => p.RecipeId)" Sortable="true" />
         <PropertyColumn Property="@(p => p.RecipeName)" Sortable="true" />
         <PropertyColumn Property="@(p => p.CreatedAt)" Format="yyyy-MM-dd" Sortable="true" />
     </FluentDataGrid>

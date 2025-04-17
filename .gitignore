@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 src/Home.Recipes.Api/StaticFiles/
 
+src/Home.Recipes.Api/appsettings.Development.json

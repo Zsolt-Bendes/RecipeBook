@@ -21,8 +21,7 @@ internal static class ConfigurationExtensions
 
         services.AddMarten(new MartenConfigurations(connectionString))
             .IntegrateWithWolverine()
-            .UseLightweightSessions()
-            .OptimizeArtifactWorkflow();
+            .UseLightweightSessions();
 
         return services;
     }

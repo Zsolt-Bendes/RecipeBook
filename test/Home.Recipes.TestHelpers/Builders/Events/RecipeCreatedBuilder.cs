@@ -1,6 +1,6 @@
 ﻿using Home.Recipes.Domain.Recipes.Events;
 using Home.Recipes.Domain.Recipes.ValueObjects;
-using Marten.Schema.Identity;
+using JasperFx.Core;
 
 namespace Home.Recipes.TestHelpers.Builders.Events;
 

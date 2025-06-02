@@ -3,7 +3,7 @@ using Home.Recipes.Api.Features.Recipes.Common;
 using Home.Recipes.Domain.Recipes;
 using Home.Recipes.Domain.Recipes.Events;
 using Home.Recipes.Domain.Recipes.ValueObjects;
-using Marten.Schema.Identity;
+using JasperFx.Core;
 using System.Net;
 
 namespace Home.Recipes.IntegrationTests.Recipes;

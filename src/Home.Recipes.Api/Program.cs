@@ -14,6 +14,7 @@ builder.Logging.AddDebug();
 builder.Logging.AddConsole();
 
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();

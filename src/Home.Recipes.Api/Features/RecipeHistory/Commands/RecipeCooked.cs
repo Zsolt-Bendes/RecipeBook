@@ -1,5 +1,4 @@
 ﻿using Home.Recipes.Domain.RecipeHistory.Events;
-using JasperFx.Core;
 using Wolverine.Attributes;
 
 namespace Home.Recipes.Api.Features.RecipeHistory.Commands;
@@ -37,7 +36,7 @@ public static class RecipeCookedEndpoint
         Recipe recipe,
         IDocumentSession session)
     {
-        var id = CombGuidIdGeneration.NewGuid();
+        var id = Guid.CreateVersion7();
         var recipeCooked = new RecipeCooked(
             id,
             recipe.Id,

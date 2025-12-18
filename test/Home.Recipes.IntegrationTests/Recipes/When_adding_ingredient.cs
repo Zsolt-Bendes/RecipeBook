@@ -3,7 +3,6 @@ using Home.Recipes.Api.Features.Recipes.Common;
 using Home.Recipes.Domain.Recipes;
 using Home.Recipes.Domain.Recipes.Events;
 using Home.Recipes.Domain.Recipes.ValueObjects;
-using JasperFx.Core;
 using System.Net;
 
 namespace Home.Recipes.IntegrationTests.Recipes;
@@ -12,7 +11,7 @@ namespace Home.Recipes.IntegrationTests.Recipes;
 public sealed class When_adding_ingredient : IAsyncLifetime
 {
     private readonly Fixture _fixture;
-    private readonly Guid _recipeId = CombGuidIdGeneration.NewGuid();
+    private readonly Guid _recipeId = Guid.CreateVersion7();
 
     public When_adding_ingredient(Fixture fixture)
     {

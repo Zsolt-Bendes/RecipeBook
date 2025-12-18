@@ -1,12 +1,11 @@
 ﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
-using Wolverine.Http.Marten;
 
 namespace Home.Recipes.Api.Features.Recipes.Commands;
 
 public sealed class ChangeRecipeImageEndpoint
 {
-    internal const string Endpoint = "/recipes/{recipeId}/changeImage";
+    internal const string Endpoint = "/recipes/changeImage";
 
     public static async Task<ProblemDetails> LoadAsync(
         Guid recipeId,
@@ -31,16 +30,15 @@ public sealed class ChangeRecipeImageEndpoint
     [WolverinePost(Endpoint)]
     [EmptyResponse]
     public static async Task<RecipeImageAdded> Post(
-        IFormFile image,
-        [Aggregate] Recipe recipe,
+        [FromForm(Name = "RecipeId")] Guid recipeId,
+        [FromForm(Name = "Image")] IFormFile image,
+        IDocumentSession session,
         CancellationToken cancellationToken)
     {
-        var imagePath = RecipeConstants.StaticFilesPath + recipe.Id;
-        using (var stream = File.Create(imagePath))
-        {
-            await CreateThumbnailAsync(image, recipe.Id, cancellationToken);
-            await CreateCoverImageAsync(image, recipe.Id, cancellationToken);
-        }
+        var imagePath = RecipeConstants.StaticFilesPath + recipeId;
+
+        await CreateThumbnailAsync(image, recipeId, cancellationToken);
+        await CreateCoverImageAsync(image, recipeId, cancellationToken);
 
         return new RecipeImageAdded();
     }

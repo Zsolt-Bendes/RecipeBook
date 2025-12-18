@@ -1,5 +1,4 @@
-﻿using JasperFx.Core;
-using Wolverine.Attributes;
+﻿using Wolverine.Attributes;
 
 namespace Home.Recipes.Api.Features.Recipes.Commands;
 
@@ -55,7 +54,7 @@ public static class CreateRecipeEndpoint
         IDocumentSession session,
         TimeProvider timeProvider)
     {
-        var id = CombGuidIdGeneration.NewGuid();
+        var id = Guid.CreateVersion7();
         var evt = new RecipeCreated(
             id,
             command.Name,

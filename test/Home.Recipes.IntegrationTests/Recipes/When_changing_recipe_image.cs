@@ -21,12 +21,14 @@ public sealed class When_changing_recipe_image
         using var content = new StreamContent(imageFile);
         using var formData = new MultipartFormDataContent();
 
+        formData.Add(new StringContent(Guid.NewGuid().ToString()), "RecipeId");
+
         // Act & Assert
         _ = await _fixture.Host.Scenario(_ =>
         {
             formData.Add(content, "Image", imageFile.Name);
 
-            _.Post.MultipartFormData(formData).ToUrl(ChangeRecipeImageEndpoint.Endpoint.Replace("{recipeId}", Guid.NewGuid().ToString()));
+            _.Post.MultipartFormData(formData).ToUrl(ChangeRecipeImageEndpoint.Endpoint);
             _.StatusCodeShouldBe(HttpStatusCode.NotFound);
         });
     }

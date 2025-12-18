@@ -1,6 +1,5 @@
 ﻿using Home.Recipes.Domain.Recipes.Events;
 using Home.Recipes.Domain.Recipes.ValueObjects;
-using JasperFx.Core;
 
 namespace Home.Recipes.TestHelpers.Builders.Events;
 
@@ -10,7 +9,7 @@ public sealed class RecipeCreatedBuilder
     private static MassIngredientBuilder _massIngredientBuilder = new();
     private static PieceIngredientBuilder _pieceIngredientBuilder = new();
 
-    private Guid _recipeId = CombGuidIdGeneration.NewGuid();
+    private Guid _recipeId = Guid.CreateVersion7();
     private string _name = "Spaghetti";
     private string _description = "Classic spaghetti how my family likes it!";
     private List<IngredientBase> _ingredients = [];

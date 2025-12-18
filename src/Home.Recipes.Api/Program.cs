@@ -1,4 +1,5 @@
 using Home.Recipes.Api.Infrastructure;
+using JasperFx;
 using Microsoft.Extensions.FileProviders;
 using Wolverine;
 using Wolverine.FluentValidation;
@@ -46,4 +47,4 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.MapWolverineEndpoints(opts => opts.UseFluentValidationProblemDetailMiddleware());
 
-app.Run();
+await app.RunJasperFxCommands(args);
